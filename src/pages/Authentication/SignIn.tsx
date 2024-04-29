@@ -28,8 +28,9 @@ const SignIn: React.FC = () => {
       });
   
       const data = await response.json();
-      console.log(data);
+      console.log(data.data.token);
       if (data.success) {
+        localStorage.setItem('token', data.data.token);
         console.log('Login successful');
         login(); // Update the authentication state
       } else {
@@ -53,8 +54,7 @@ const SignIn: React.FC = () => {
                 </Link>
 
                 <p className="2xl:px-20">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                  suspendisse.
+
                 </p>
 
                 <span className="mt-15 inline-block">
@@ -267,14 +267,14 @@ const SignIn: React.FC = () => {
                       className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                     />
                   </div>
-                  <div className="mt-6 text-center">
+                  {/* <div className="mt-6 text-center">
                     <p>
                       Don’t have any account?{' '}
                       <Link to="/auth/signup" className="text-primary">
                         Sign Up
                       </Link>
                     </p>
-                  </div>
+                  </div> */}
                 </form>
               </div>
             </div>
