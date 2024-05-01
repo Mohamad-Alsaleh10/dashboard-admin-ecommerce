@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 interface Item {
   id: number;
@@ -12,7 +12,7 @@ interface Props {
   setFormData: React.Dispatch<React.SetStateAction<any>>;
 }
 
-const SelectGroupTwo: React.FC<Props> = ({ name, items, formData, setFormData }) => {
+const SelectBrand: React.FC<Props> = ({ name, items, formData, setFormData }) => {
   const handleInputChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { name: inputName, value } = event.target;
     setFormData({
@@ -28,12 +28,12 @@ const SelectGroupTwo: React.FC<Props> = ({ name, items, formData, setFormData })
         {name}
       </label>
       <select
-        name="category_id"
+        name="brand_id"
         value={formData[name]}
         onChange={handleInputChange}
         className="w-full rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
       >
-        <option value="" >Select category</option>
+        <option value="" >Select Brand</option>
         {items.map(item => (
           <option key={item.id} value={item.id}>
             {item.name}
@@ -44,4 +44,4 @@ const SelectGroupTwo: React.FC<Props> = ({ name, items, formData, setFormData })
   );
 };
 
-export default SelectGroupTwo;
+export default SelectBrand;

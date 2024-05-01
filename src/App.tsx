@@ -26,6 +26,12 @@ import CategoryShowing from './pages/Category/CategoryShowing';
 import CategoryUpdate from './pages/Category/CategoryUpdate';
 import Orders from './pages/Order/Orders';
 import OrdersShowDetails from './pages/Order/OrdersShowDetails';
+import ViewColors from './pages/color/ViewColors';
+import AddColor from './pages/color/AddColor';
+import ViewBrands from './pages/brand/ViewBrands';
+import AddBrand from './pages/brand/AddBrand';
+import ViewStorage from './pages/storage/ViewStorage';
+import AddStorage from './pages/storage/AddStorage';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -123,7 +129,7 @@ function App() {
             }
           />
           <Route
-            path="/updateproducts"
+            path="/updateproducts/:itemId"
             element={
               <ProtectedRoute>
                 <PageTitle title="ViewProduct " />
@@ -132,11 +138,65 @@ function App() {
             }
           />
           <Route
+            path="/colors"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="colors " />
+                <ViewColors />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/addcolors"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="colors " />
+                <AddColor />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/brands"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="brands " />
+                <ViewBrands />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/addbrands"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="addbrands " />
+                <AddBrand />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/storages"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="storages " />
+                <ViewStorage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/addstorages"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="addstorages " />
+                <AddStorage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/orders"
             element={
               <ProtectedRoute>
                 <PageTitle title="Orders " />
-                <Orders/>
+                <Orders />
               </ProtectedRoute>
             }
           />
@@ -145,7 +205,7 @@ function App() {
             element={
               <ProtectedRoute>
                 <PageTitle title="ViewProduct " />
-                <OrdersShowDetails/>
+                <OrdersShowDetails />
               </ProtectedRoute>
             }
           />

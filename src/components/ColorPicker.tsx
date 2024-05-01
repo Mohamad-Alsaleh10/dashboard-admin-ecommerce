@@ -2,21 +2,20 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 interface Color {
-  id: number;
-  name: string;
-  color: string;
+ id: number;
+ name: string;
+ color: string;
 }
 
 interface Props {
-  formData: any;
-  setFormData: React.Dispatch<React.SetStateAction<any>>;
+ formData: any;
+ setFormData: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const ColorPicker: React.FC<Props> = ({ formData, setFormData }) => {
-  const [colors, setColors] = useState<Color[]>([]);
-  const [selectedColor, setSelectedColor] = useState<Color | null>(null);
+ const [colors, setColors] = useState<Color[]>([]);
 
-  useEffect(() => {
+ useEffect(() => {
     const fetchColors = async () => {
       try {
         const token = localStorage.getItem('token');
@@ -35,17 +34,27 @@ const ColorPicker: React.FC<Props> = ({ formData, setFormData }) => {
     };
 
     fetchColors();
-  }, []);
+ }, []);
 
-  const handleColorSelection = (color: Color) => {
-    setSelectedColor(color);
-    setFormData({
-      ...formData,
-      selectedColor: color, // Update the selectedColor property in formData
-    });
-  };
+ const handleColorSelection = (color: Color) => {
+    // Check if the color is already selected
+    const isSelected = formData.colors.some(c => c.id === color.id);
 
-  return (
+    // If selected, remove it; otherwise, add it
+    if (isSelected) {
+      setFormData({
+        ...formData,
+        colors: formData.colors.filter(c => c.id !== color.id),
+      });
+    } else {
+      setFormData({
+        ...formData,
+        colors: [...formData.colors, color.id],
+      });
+    }
+ };
+
+ return (
     <div>
       <h3 className="font-medium text-black dark:text-white">Select Color:</h3>
       <div className="flex flex-wrap mt-2">
@@ -56,13 +65,13 @@ const ColorPicker: React.FC<Props> = ({ formData, setFormData }) => {
             className="w-10 h-10 rounded-full mr-2 mb-2 cursor-pointer"
             style={{
               backgroundColor: color.color,
-              border: selectedColor === color ? '2px solid #000' : 'none',
+              border: formData.colors.some(c => c.id === color.id) ? '2px solid #000' : 'none',
             }}
           ></div>
         ))}
       </div>
     </div>
-  );
+ );
 };
 
 export default ColorPicker;

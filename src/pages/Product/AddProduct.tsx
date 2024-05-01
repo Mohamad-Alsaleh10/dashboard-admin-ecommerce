@@ -3,6 +3,10 @@ import SelectGroupTwo from "../../components/Forms/SelectGroup/SelectGroupTwo";
 import DefaultLayout from "../../layout/DefaultLayout";
 import axios from 'axios';
 import ColorPicker from "../../components/ColorPicker";
+import SelectedCurrency from "../../components/Forms/SelectGroup/SelectedCurrency";
+import Alerts from "../UiElements/Alerts";
+import SelectBrand from "../../components/Forms/SelectGroup/SelectBrand";
+import SelectStorage from "../../components/Forms/SelectGroup/SelectStorage";
 interface Category {
   id: number;
   name: string;
@@ -20,18 +24,15 @@ interface Color {
   id: number;
   name: string;
 }
-export default function AddProduct() {  
-  const color: Color[] = [
-    {
-      id: 1,
-      name: "green",
-
-    },
-    {
-      id: 2,
-      name: "red",
-    },
-  ];
+interface Brand {
+  id: number;
+  name: string;
+}
+interface Storage {
+  id: number;
+  size: string;
+}
+export default function AddProduct() {
   const currencies: Currency[] = [
     {
       id: 1,
@@ -48,6 +49,10 @@ export default function AddProduct() {
   ];
 
   const [categories, setCategories] = useState<Category[]>([]);
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const [storages, setStorages] = useState<Storage[]>([]);
+
+  const [responseStatus, setResponseStatus] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     category_id: "",
     currency_id: "",
@@ -56,12 +61,12 @@ export default function AddProduct() {
     description_en: "",
     description_ar: "",
     price: "",
+    brand_id: "",
+    storage_id: "",
     images: [] as File[],
     colors: [],
   });
   useEffect(() => {
-    console.log(localStorage.getItem('token'));
-    // دالة لجلب التوكين من localStorage
     const getToken = () => {
       return localStorage.getItem('token');
     };
@@ -88,44 +93,98 @@ export default function AddProduct() {
 
   }, []);
 
+  useEffect(() => {
+    const getToken = () => {
+      return localStorage.getItem('token');
+    };
+
+    // الهيدر الذي يجب إرساله مع الطلب
+    const headers = {
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    };
+
+    // الرابط الذي سنرسل إليه الطلب لجلب المنتجات
+    const apiUrl = 'https://api.alorfi-store.com/superAdmin_api/show_brands';
+    axios.get(apiUrl, { headers })
+      .then(response => {
+        console.log(response.data.data);
+        setBrands(response.data.data);
+
+      })
+      .catch(error => {
+        console.error('Error fetching :', error);
+      });
+
+
+  }, []);
+
+  useEffect(() => {
+    const getToken = () => {
+      return localStorage.getItem('token');
+    };
+
+    // الهيدر الذي يجب إرساله مع الطلب
+    const headers = {
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    };
+
+    // الرابط الذي سنرسل إليه الطلب لجلب المنتجات
+    const apiUrl = 'https://api.alorfi-store.com/superAdmin_api/show_storages';
+    axios.get(apiUrl, { headers })
+      .then(response => {
+        console.log(response.data.data);
+        setStorages(response.data.data);
+
+      })
+      .catch(error => {
+        console.error('Error fetching :', error);
+      });
+
+
+  }, []);
+  // handle submit 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-   
+
     try {
-       const token = localStorage.getItem('token');
-       const headers = {
-         Accept: 'application/json',
-         Authorization: `Bearer ${token}`,
-       };
-       const apiUrl = 'https://api.alorfi-store.com/superAdmin_api/add_item';
-       console.log(formData);
-       // Prepare FormData
-       const formDataToSend = new FormData();
-       formDataToSend.append('sname', JSON.stringify({
-         category_id: formData.category_id,
-         currency_id: formData.currency_id,
-         name_en: formData.name_en,
-         name_ar: formData.name_ar,
-         description_en: formData.description_en,
-         description_ar: formData.description_ar,
-         price: formData.price,
-         // Assuming 'colors' is an array of color IDs or names as strings
-         colors: formData.colors.join(','), // Convert array to comma-separated string if necessary
-       }));
-   
-       // Append each image file
-       formData.images.forEach((image, index) => {
-         formDataToSend.append(`images[${index}]`, image);
-       });
-   
-       const response = await axios.post(apiUrl, formDataToSend, { headers });
-       console.log('Response:', response.data);
-       // Handle success, redirect, or show a success message
+      const token = localStorage.getItem('token');
+      const headers = {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      };
+      const apiUrl = 'https://api.alorfi-store.com/superAdmin_api/add_item';
+      console.log(formData);
+      // Prepare FormData
+      const formDataToSend = new FormData();
+      formDataToSend.append('category_id', formData.category_id);
+      formDataToSend.append('currency_id', formData.currency_id);
+      formDataToSend.append('name_en', formData.name_en);
+      formDataToSend.append('name_ar', formData.name_ar);
+      formDataToSend.append('description_en', formData.description_en);
+      formDataToSend.append('description_ar', formData.description_en);
+      formDataToSend.append('price', formData.price);
+      formDataToSend.append('brand_id', formData.brand_id);
+      formDataToSend.append('storage_id', formData.storage_id);
+
+      formData.images.forEach((image, index) => {
+        formDataToSend.append(`images[${index}]`, image);
+      });
+      formData.colors.forEach((colorId, index) => {
+        formDataToSend.append(`colors[${index}]`, colorId);
+      });
+
+      console.log(formDataToSend);
+      const response = await axios.post(apiUrl, formDataToSend, { headers });
+      console.log('Response:', response.data);
+      setResponseStatus(response.data);
+      // Handle success, redirect, or show a success message
     } catch (error) {
-       console.error('Error adding product:', error);
-       // Handle error, show an error message, etc.
+      console.error('Error adding product:', error);
+      // Handle error, show an error message, etc.
     }
-   };
+  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -135,17 +194,17 @@ export default function AddProduct() {
     });
   };
 
-  
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
-        const selectedImages = Array.from(files);
-        setFormData({
-            ...formData,
-            images: selectedImages,
-        });
+      const selectedImages = Array.from(files);
+      setFormData({
+        ...formData,
+        images: selectedImages,
+      });
     }
-};
+  };
   return (
     <DefaultLayout>
 
@@ -159,7 +218,7 @@ export default function AddProduct() {
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
               <SelectGroupTwo name="category" items={categories} formData={formData} setFormData={setFormData} />
-              <SelectGroupTwo name="currency" items={currencies} formData={formData} setFormData={setFormData} />
+              <SelectedCurrency name="currency" items={currencies} formData={formData} setFormData={setFormData} />
               <div>
                 <label htmlFor="productNameEn" className="mb-3 block text-black dark:text-white">
                   Product Name in Arabic:
@@ -230,6 +289,8 @@ export default function AddProduct() {
                   className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                 />
               </div>
+              <SelectBrand name="brand" items={brands} formData={formData} setFormData={setFormData} />
+              <SelectStorage name="Storage" items={storages} formData={formData} setFormData={setFormData} />
             </div>
           </div>
 
@@ -257,6 +318,7 @@ export default function AddProduct() {
 
           <button type="submit" className="inline-flex items-center justify-center rounded-md bg-black py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10">Add</button>
         </div>
+        {responseStatus && <Alerts responseStatus={responseStatus} />}
       </form>
 
     </DefaultLayout>

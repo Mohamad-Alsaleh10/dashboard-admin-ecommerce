@@ -12,7 +12,8 @@ interface Props {
   setFormData: React.Dispatch<React.SetStateAction<any>>;
 }
 
-const SelectGroupTwo: React.FC<Props> = ({ name, items, formData, setFormData }) => {
+const SelectedCurrency: React.FC<Props> = ({ name, items, formData, setFormData }) => {
+  console.log(items);
   const handleInputChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { name: inputName, value } = event.target;
     setFormData({
@@ -21,22 +22,21 @@ const SelectGroupTwo: React.FC<Props> = ({ name, items, formData, setFormData })
     });
   };
 
-  
   return (
     <div>
       <label className="mb-3 block text-black dark:text-white">
         {name}
       </label>
       <select
-        name="category_id"
+        name="currency_id"
         value={formData[name]}
         onChange={handleInputChange}
         className="w-full rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
       >
-        <option value="" >Select category</option>
-        {items.map(item => (
-          <option key={item.id} value={item.id}>
-            {item.name}
+        <option value="" >Select currency</option>
+        {items.map(element => (
+          <option key={element.id} value={element.id}>
+            {element.name}
           </option>
         ))}
       </select>
@@ -44,4 +44,4 @@ const SelectGroupTwo: React.FC<Props> = ({ name, items, formData, setFormData })
   );
 };
 
-export default SelectGroupTwo;
+export default SelectedCurrency;
