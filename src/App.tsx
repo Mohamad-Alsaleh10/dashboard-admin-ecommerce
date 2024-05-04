@@ -24,14 +24,15 @@ import { useAuth } from './pages/Authentication/AuthContext'; // Adjust the impo
 import CategoryAdd from './pages/Category/CategoryAdd';
 import CategoryShowing from './pages/Category/CategoryShowing';
 import CategoryUpdate from './pages/Category/CategoryUpdate';
-import Orders from './pages/Order/Orders';
-import OrdersShowDetails from './pages/Order/OrdersShowDetails';
 import ViewColors from './pages/color/ViewColors';
 import AddColor from './pages/color/AddColor';
 import ViewBrands from './pages/brand/ViewBrands';
 import AddBrand from './pages/brand/AddBrand';
 import ViewStorage from './pages/storage/ViewStorage';
 import AddStorage from './pages/storage/AddStorage';
+import Customer from './pages/Customer/Customer';
+import Recharge from './pages/Recharge/Recharge';
+import Order from './pages/Order/Order';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -192,23 +193,35 @@ function App() {
             }
           />
           <Route
+            path="/customers"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="customers " />
+                <Customer />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/charge/:customerId"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="charge " />
+                <Recharge />
+              </ProtectedRoute>
+            }
+          />
+          
+          <Route
             path="/orders"
             element={
               <ProtectedRoute>
-                <PageTitle title="Orders " />
-                <Orders />
+                <PageTitle title="orders" />
+                <Order/>
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/ordersShowDetails"
-            element={
-              <ProtectedRoute>
-                <PageTitle title="ViewProduct " />
-                <OrdersShowDetails />
-              </ProtectedRoute>
-            }
-          />
+
 
           <Route
             path="/profile"

@@ -3,7 +3,10 @@ import DefaultLayout from '../../layout/DefaultLayout'
 import TableThree from '../../components/Tables/TableThree'
 import axios from 'axios';
 
-export default function Orders() {
+export default function Customer() {
+    const [active, setactive] = useState(0);
+    const [charge, setcharge] = useState(0);
+    const [deleteItem, setdeleteItem] = useState(false);
     const [responseData, setResponseData] = useState(null);
     useEffect(() => {
         // دالة لجلب التوكين من localStorage
@@ -33,11 +36,11 @@ export default function Orders() {
             // يتم معالجة الخطأ هنا
             console.error('Error fetching products:', error);
           });
-      }, []);
+      }, [active,charge,deleteItem]);
 
   return (
     <DefaultLayout>
-        <TableThree responseData={responseData}/>
+        <TableThree responseData={responseData} changeactive={setactive} changecharge={setcharge} changedeleteitem={setdeleteItem}/>
     </DefaultLayout>
   )
 }

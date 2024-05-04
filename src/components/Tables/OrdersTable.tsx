@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import DeleteAlert from '../../pages/UiElements/DeleteAlert';
 
-const TableThree = ({ responseData ,changecharge ,changeactive ,changedeleteitem }) => {
+const TableThree = ({ responseData ,changecharge ,changeactive }) => {
   const [triggerRerender, setTriggerRerender] = useState(false);
-  const [deletedItem, setdeletedItem] = useState(false);
 
  if (!responseData) {
     return null;
@@ -78,36 +76,6 @@ const handleClick = (customerId) => {
        console.error('Error fetching data:', error);
      });
  };
- const handleDelete = async (categoryId) => {
-  try {
-    // Get the authorization token
-    const token = localStorage.getItem('token') || '';
-
-    // Set up the headers
-    const headers = {
-      Accept: 'application/json',
-      Authorization: `Bearer ${token}`,
-    };
-
-    // Send DELETE request to delete the category with headers
-    const response = await axios.delete(`https://api.alorfi-store.com/superAdmin_api/delete_customer?customerId=${categoryId}`, {
-      headers: headers
-    });
-
-    // Check if deletion was successful
-    if (response.status === 200){
-      setdeletedItem(true);
-      changedeleteitem(true);
-      console.log('success');
-    } else {
-      setdeletedItem(false);
-      changedeleteitem(false);
-      console.error("Deletion failed");
-    }
-  } catch (error) {
-    console.error("Error deleting category:", error);
-  }
-};
 
  return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -135,9 +103,6 @@ const handleClick = (customerId) => {
               </th>
               <th className="py-4 px-4 font-medium text-black dark:text-white">
                 Recharge
-              </th>
-              <th className="py-4 px-4 font-medium text-black dark:text-white">
-                Actions
               </th>
             </tr>
           </thead>
@@ -202,20 +167,11 @@ const handleClick = (customerId) => {
                     Recharge
                  </Link>
                 </td>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                 <button onClick={()=> handleDelete(packageItem.id)}
-                    className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium
-                      }`}
-                 >
-                    delete
-                 </button>
-                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      {deletedItem && <DeleteAlert deletedItem={deletedItem} />}
     </div>
  );
 };
