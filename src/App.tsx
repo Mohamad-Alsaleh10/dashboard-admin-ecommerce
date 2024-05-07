@@ -33,6 +33,15 @@ import AddStorage from './pages/storage/AddStorage';
 import Customer from './pages/Customer/Customer';
 import Recharge from './pages/Recharge/Recharge';
 import Order from './pages/Order/Order';
+import Payments from './pages/payment/Payments';
+import AddPayment from './pages/payment/AddPayment';
+import UpdatePayment from './pages/payment/UpdatePayment';
+import Communication from './pages/communication/Communication';
+import AddApp from './pages/communication/AddApp';
+import AddLink from './pages/communication/AddLink';
+import AllLinks from './pages/communication/AllLinks';
+import UpdateLink from './pages/communication/UpdateLink';
+import Notification from './pages/Notifications/Notification';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -202,6 +211,7 @@ function App() {
             }
           />
 
+
           <Route
             path="/charge/:customerId"
             element={
@@ -211,18 +221,98 @@ function App() {
               </ProtectedRoute>
             }
           />
-          
+
           <Route
             path="/orders"
             element={
               <ProtectedRoute>
                 <PageTitle title="orders" />
-                <Order/>
+                <Order />
               </ProtectedRoute>
             }
           />
 
-
+          <Route
+            path="/payments"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="payments " />
+                <Payments />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/addpayments"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="addpayments " />
+                <AddPayment />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/updatepayment/:methodId"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="update payment " />
+                <UpdatePayment />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/communication"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="communication " />
+                <Communication />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/links"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="links " />
+                <AllLinks />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/addapp"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="addapp " />
+                <AddApp />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/addlink"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="addlink " />
+                <AddLink />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/updatelink/:linkId"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="update link " />
+                <UpdateLink />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/notification"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="notification " />
+                <Notification />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/profile"
             element={

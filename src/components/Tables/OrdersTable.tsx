@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const TableThree = ({ responseData ,changecharge ,changeactive }) => {
+const OrdersTable = ({ responseData ,changecharge ,changeactive }) => {
   const [triggerRerender, setTriggerRerender] = useState(false);
 
  if (!responseData) {
@@ -95,15 +95,6 @@ const handleClick = (customerId) => {
               <th className="py-4 px-4 font-medium text-black dark:text-white">
                 balance
               </th>
-              <th className="py-4 px-4 font-medium text-black dark:text-white">
-                is active
-              </th>
-              <th className="py-4 px-4 font-medium text-black dark:text-white">
-                is trader
-              </th>
-              <th className="py-4 px-4 font-medium text-black dark:text-white">
-                Recharge
-              </th>
             </tr>
           </thead>
           <tbody>
@@ -133,40 +124,7 @@ const handleClick = (customerId) => {
                     {packageItem.balance}
                  </p>
                 </td>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                 <button
-                    onClick={() => handleClick(packageItem.id)}
-                    className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${packageItem.is_active === '1'
-                        ? 'bg-success text-success'
-                        : packageItem.is_active === '0'
-                          ? 'bg-danger text-danger'
-                          : 'bg-warning text-warning'
-                      }`}
-                 >
-                    {packageItem.is_active === '1' ? "active" : "not active"}
-                 </button>
-                </td>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                 <button
-                    onClick={() => handleClick2(packageItem.id)}
-                    className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${packageItem.is_trader === '1'
-                        ? 'bg-success text-success'
-                        : packageItem.is_trader === '0'
-                          ? 'bg-danger text-danger'
-                          : 'bg-warning text-warning'
-                      }`}
-                 >
-                    {packageItem.is_trader === '1' ? "trader" : "not trader"}
-                 </button>
-                </td>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                 <Link to={`/charge/${packageItem.id}`}
-                    className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium
-                      }`}
-                 >
-                    Recharge
-                 </Link>
-                </td>
+
               </tr>
             ))}
           </tbody>
