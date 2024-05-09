@@ -11,7 +11,6 @@ import ECommerce from './pages/Dashboard/ECommerce';
 import FormElements from './pages/Form/FormElements';
 import FormLayout from './pages/Form/FormLayout';
 import Profile from './pages/Profile';
-import Settings from './pages/Settings';
 import Tables from './pages/Tables';
 import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
@@ -42,6 +41,16 @@ import AddLink from './pages/communication/AddLink';
 import AllLinks from './pages/communication/AllLinks';
 import UpdateLink from './pages/communication/UpdateLink';
 import Notification from './pages/Notifications/Notification';
+import Settings from './pages/Setting/Settings';
+import AddSettings from './pages/Setting/AddSettings';
+import ChangeCurrency from './pages/Setting/ChangeCurrency';
+import Admins from './pages/Admins/Admins';
+import { useLanguage } from './MultiLanguge/LanguageProvider ';
+import ShowPermission from './pages/Admins/ShowPermission';
+import AddAdmin from './pages/Admins/AddAdmin';
+import ShowAdminPerm from './pages/Admins/ShowAdminPerm';
+import UpdateAdminPerm from './pages/Admins/UpdateAdminPerm';
+import UpdateSetting from './pages/Setting/UpdateSetting';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -50,7 +59,13 @@ function App() {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
 
-
+  const { language } = useLanguage();
+  useEffect(() => {
+    // Determine the direction based on the language
+    const direction = language === 'ar' ? 'rtl' : 'ltr';
+    // Update the body's dir attribute
+    document.body.dir = direction;
+  }, [language]);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
@@ -314,6 +329,87 @@ function App() {
             }
           />
           <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="settings " />
+                <Settings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/addsettings"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="addsettings " />
+                <AddSettings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/changecurrency"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="ChangeCurrency " />
+                <ChangeCurrency />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admins"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="Admins " />
+                <Admins />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/showpermission"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="showpermission " />
+                <ShowPermission />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/addadmin"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="addadmin " />
+                <AddAdmin />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/showadminpermission/:adminId"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="showadminpermission " />
+                <ShowAdminPerm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/editadminpermission/:adminId"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="editadminpermission " />
+                <UpdateAdminPerm />
+              </ProtectedRoute>
+            }
+          />
+                    <Route
+            path="/updatesetting/:settingId"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="updatesetting " />
+                <UpdateSetting />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/profile"
             element={
               <ProtectedRoute>
@@ -346,15 +442,6 @@ function App() {
               <ProtectedRoute>
                 <PageTitle title="Tables | TailAdmin - Tailwind CSS Admin Dashboard Template" />
                 <Tables />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/settings"
-            element={
-              <ProtectedRoute>
-                <PageTitle title="Settings | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-                <Settings />
               </ProtectedRoute>
             }
           />

@@ -31,7 +31,11 @@ const SignIn: React.FC = () => {
       console.log(data.data.token);
       if (data.success) {
         localStorage.setItem('token', data.data.token);
+        localStorage.setItem('permissions', data.data.permissions
+      );
         console.log('Login successful');
+        console.log(localStorage.getItem('permissions'));
+
         login(); // Update the authentication state
       } else {
         console.error('Login failed');
