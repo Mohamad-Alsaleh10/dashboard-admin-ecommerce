@@ -51,6 +51,10 @@ import AddAdmin from './pages/Admins/AddAdmin';
 import ShowAdminPerm from './pages/Admins/ShowAdminPerm';
 import UpdateAdminPerm from './pages/Admins/UpdateAdminPerm';
 import UpdateSetting from './pages/Setting/UpdateSetting';
+import CardCategory from './pages/CardCategories/CardCategory';
+import AddCardCategory from './pages/CardCategories/AddCardCategory';
+import ShowCardCategory from './pages/CardCategories/ShowCardCategory';
+import UpdateCardCategory from './pages/CardCategories/UpdateCardCategory';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -141,6 +145,42 @@ function App() {
               <ProtectedRoute>
                 <PageTitle title="AddCategory " />
                 <CategoryAdd />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/cardcategory"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="cardcategory " />
+                <CardCategory />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/addcardcategory"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="addcardcategory " />
+                <AddCardCategory />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/showcardcategory/:cardCategoryId"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="showcardcategory " />
+                <ShowCardCategory />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/updatecardcategory/:cardCategoryId"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="updatecardcategory " />
+                <UpdateCardCategory />
               </ProtectedRoute>
             }
           />
@@ -400,7 +440,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-                    <Route
+          <Route
             path="/updatesetting/:settingId"
             element={
               <ProtectedRoute>
