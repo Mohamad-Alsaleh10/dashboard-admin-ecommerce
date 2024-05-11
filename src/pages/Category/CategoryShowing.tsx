@@ -3,10 +3,13 @@ import DefaultLayout from '../../layout/DefaultLayout'
 import TableTwo from '../../components/Tables/TableTwo'
 import TableOne from '../../components/Tables/TableOne'
 import axios from 'axios';
+import { useLanguage } from '../../MultiLanguge/LanguageProvider ';
 
 export default function CategoryShowing() {
   const [responseData, setResponseData] = useState(null);
+  const { language } = useLanguage();
   useEffect(() => {
+    console.log(language);
     // دالة لجلب التوكين من localStorage
     const getToken = () => {
       return localStorage.getItem('token');
@@ -15,7 +18,7 @@ export default function CategoryShowing() {
     // الهيدر الذي يجب إرساله مع الطلب
     const headers = {
       Accept: 'application/json',
-      language: 'en',
+      language: language,
       Authorization: `Bearer ${getToken()}`, // إضافة التوكين إلى الهيدر
     };
 
@@ -34,7 +37,7 @@ export default function CategoryShowing() {
         // يتم معالجة الخطأ هنا
         console.error('Error fetching products:', error);
       });
-  }, []);
+  }, [language]);
   return (
     <DefaultLayout>
         <TableOne responseData={responseData} />

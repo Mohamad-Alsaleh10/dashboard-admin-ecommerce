@@ -55,6 +55,10 @@ import CardCategory from './pages/CardCategories/CardCategory';
 import AddCardCategory from './pages/CardCategories/AddCardCategory';
 import ShowCardCategory from './pages/CardCategories/ShowCardCategory';
 import UpdateCardCategory from './pages/CardCategories/UpdateCardCategory';
+import Card from './pages/Card/Card';
+import AddCard from './pages/Card/AddCard';
+import ProductDetails from './pages/Product/ProductDetails';
+import CategoryDetails from './pages/Category/CategoryDetails';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -315,6 +319,24 @@ function App() {
             }
           />
           <Route
+            path="/viewproduct/:itemId"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="viewproduct " />
+                <ProductDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/showcategory/:categoryId"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="showcategory" />
+                <CategoryDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/communication"
             element={
               <ProtectedRoute>
@@ -446,6 +468,24 @@ function App() {
               <ProtectedRoute>
                 <PageTitle title="updatesetting " />
                 <UpdateSetting />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/cards"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="card " />
+                <Card />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/addcards"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="addcard " />
+                <AddCard />
               </ProtectedRoute>
             }
           />

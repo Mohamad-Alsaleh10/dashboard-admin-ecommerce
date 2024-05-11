@@ -79,7 +79,7 @@ export default function Admins() {
     // الهيدر الذي يجب إرساله مع الطلب
     const headers = {
       Accept: 'application/json',
-      perPage: '10',
+      perPage: '20',
       Authorization: `Bearer ${getToken()}`, // إضافة التوكين إلى الهيدر
     };
 

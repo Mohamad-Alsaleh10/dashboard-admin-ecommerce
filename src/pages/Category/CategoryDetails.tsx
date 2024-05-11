@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DefaultLayout from '../../layout/DefaultLayout';
+import { useLanguage } from '../../MultiLanguge/LanguageProvider ';
+import { useParams } from 'react-router-dom';
 
-const CategoryDetails = ({ categoryId }) => {
+const CategoryDetails = () => {
   const [categoryDetails, setCategoryDetails] = useState(null);
-
-
-useEffect(() => {
+  const { language } = useLanguage();
+  const { categoryId } = useParams();
+  useEffect(() => {
     // دالة لجلب التوكين من localStorage
     const getToken = () => {
       return localStorage.getItem('token');
@@ -15,7 +17,7 @@ useEffect(() => {
     // الهيدر الذي يجب إرساله مع الطلب
     const headers = {
       Accept: 'application/json',
-      language: 'en',
+      language: language,
       Authorization: `Bearer ${getToken()}`, // إضافة التوكين إلى الهيدر
     };
 
@@ -33,23 +35,27 @@ useEffect(() => {
         // يتم معالجة الخطأ هنا
         console.error('Error fetching products:', error);
       });
-    }, [categoryId]);
+  }, [categoryId, language]);
 
   if (!categoryDetails) {
     return null;
   }
 
   return (
-    <div className='mb-4'>
-      <h2 className='mb-6 text-xl font-semibold text-black dark:text-white'>Name : {categoryDetails.name} </h2>
-      <h2 className='mb-6 text-xl font-semibold text-black dark:text-white' >images : </h2>
-      <div >
-        {categoryDetails.images.map((image, index) => (
-          <img key={index} src={`https://api.alorfi-store.com/storage/${image.url}`} alt={`Image ${index + 1}`} />
-        ))}
+    <DefaultLayout>
+
+      <div className='mb-4'>
+        <h2 className='mb-6 text-xl font-semibold text-black dark:text-white'>Name : {categoryDetails.name} </h2>
+        <h2 className='mb-6 text-xl font-semibold text-black dark:text-white' >images : </h2>
+        <div >
+          {categoryDetails.images.map((image, index) => (
+            <img key={index} src={`https://api.alorfi-store.com/storage/${image.url}`} alt={`Image ${index + 1}`} />
+          ))}
+        </div>
+        {/* Display other category details as needed */}
       </div>
-      {/* Display other category details as needed */}
-    </div>
+    </DefaultLayout>
+
   );
 };
 

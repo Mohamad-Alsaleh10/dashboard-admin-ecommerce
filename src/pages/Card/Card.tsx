@@ -1,12 +1,12 @@
+
 import React, { useEffect, useState } from 'react';
 import DefaultLayout from './../../layout/DefaultLayout';
-import TableTwo from './../../components/Tables/TableTwo';
 import axios from 'axios';
-import { useLanguage } from '../../MultiLanguge/LanguageProvider ';
+import TableCard from '../../components/Tables/TableCard';
 
-export default function ViewProduct() {
+export default function Card() {
   const [responseData, setResponseData] = useState(null);
-  const { language } = useLanguage();
+
   useEffect(() => {
     // دالة لجلب التوكين من localStorage
     const getToken = () => {
@@ -16,13 +16,14 @@ export default function ViewProduct() {
     // الهيدر الذي يجب إرساله مع الطلب
     const headers = {
       Accept: 'application/json',
-      language: language,
+      language: 'en',
+      perPage:'10',
       currency: 'Dinar',
       Authorization: `Bearer ${getToken()}`, // إضافة التوكين إلى الهيدر
     };
 
     // الرابط الذي سنرسل إليه الطلب لجلب المنتجات
-    const apiUrl = 'https://api.alorfi-store.com/superAdmin_api/show_items';
+    const apiUrl = 'https://api.alorfi-store.com/superAdmin_api/show_cards';
 
     // إرسال طلب GET لجلب المنتجات باستخدام التوكين
     axios.get(apiUrl, { headers })
@@ -36,11 +37,11 @@ export default function ViewProduct() {
         // يتم معالجة الخطأ هنا
         console.error('Error fetching products:', error);
       });
-  }, [language]); // تم تحديد اعتماديات فارغة لتنفيذ الطلب مرة واحدة عند تحميل المكون
+  }, []); // تم تحديد اعتماديات فارغة لتنفيذ الطلب مرة واحدة عند تحميل المكون
 
   return (
     <DefaultLayout>
-        <TableTwo   responseData={responseData}/>
+        <TableCard   responseData={responseData}/>
     </DefaultLayout>
   )
 }

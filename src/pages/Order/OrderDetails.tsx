@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DefaultLayout from '../../layout/DefaultLayout';
+import { useLanguage } from '../../MultiLanguge/LanguageProvider ';
 interface OrderDetailsType {
     item_name: string;
     quantity: string;
@@ -13,7 +14,7 @@ interface OrderDetailsType {
    }
 const OrderDetails = ({ id }) => {
     const [orderDetails, setorderDetails] = useState<OrderDetailsType | null>(null);
-
+    const { language } = useLanguage();
 
     useEffect(() => {
         // دالة لجلب التوكين من localStorage
@@ -24,7 +25,7 @@ const OrderDetails = ({ id }) => {
         // الهيدر الذي يجب إرساله مع الطلب
         const headers = {
             Accept: 'application/json',
-            language: 'en',
+            language: language,
             Authorization: `Bearer ${getToken()}`, // إضافة التوكين إلى الهيدر
         };
 
@@ -42,7 +43,7 @@ const OrderDetails = ({ id }) => {
                 // يتم معالجة الخطأ هنا
                 console.error('Error fetching products:', error);
             });
-    }, [id]);
+    }, [id,language]);
 
     if (!orderDetails) {
         return null;

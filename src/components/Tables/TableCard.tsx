@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { Product } from '../../types/product';
+import { Card } from '../../types/card';
 import ProductDetails from '../../pages/Product/ProductDetails';
 import axios from 'axios';
 import DeleteAlert from '../../pages/UiElements/DeleteAlert';
 import { Link } from 'react-router-dom';
 
-interface TableTwoProps {
-  responseData: Product[];
+interface TableProps {
+  responseData: Card[];
 }
 
-const TableTwo: React.FC<TableTwoProps> = ({ responseData }) => {
+const TableCard: React.FC<TableProps> =({ responseData }) => {
   const [deletedItem, setdeletedItem] = useState(false);
   const [selectedProductId, setselectedProductId] = useState(null);
   const handleProductClick = (ProductId) => {
@@ -51,15 +51,19 @@ const TableTwo: React.FC<TableTwoProps> = ({ responseData }) => {
 
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+      {selectedProductId && <ProductDetails ProductId={selectedProductId} />}
       <div className="py-6 px-4 md:px-6 xl:px-7.5">
         <h4 className="text-xl font-semibold text-black dark:text-white">
-          Products
+          Cards
         </h4>
       </div>
 
       <div className="flex justify-between border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
         <div className="col-span-2 flex items-center">
           <p className="font-medium">Name</p>
+        </div>
+        <div className="col-span-2 flex items-center">
+          <p className="font-medium">type</p>
         </div>
         <div className="col-span-1 hidden items-center sm:flex">
           <p className="font-small">Category</p>
@@ -99,7 +103,12 @@ const TableTwo: React.FC<TableTwoProps> = ({ responseData }) => {
           </div>
           <div className="col-span-1 hidden items-center sm:flex">
             <p className="text-sm text-black dark:text-white">
-              {product.category_name}
+              {product.type}
+            </p>
+          </div>
+          <div className="col-span-1 hidden items-center sm:flex">
+            <p className="text-sm text-black dark:text-white">
+              {product.card_category_name}
             </p>
           </div>
 
@@ -123,10 +132,9 @@ const TableTwo: React.FC<TableTwoProps> = ({ responseData }) => {
 
 
           <div className="flex gap-2 items-center justify-center p-2.5 xl:p-5">
-            
             <button
+            onClick={() => handleProductClick(product.id)}
              className="hover:text-primary ">
-              <Link to={`/viewproduct/${product.id}`}>
               <svg
                 className="fill-current"
                 width="18"
@@ -144,8 +152,6 @@ const TableTwo: React.FC<TableTwoProps> = ({ responseData }) => {
                   fill=""
                 />
               </svg>
-              </Link>
-
             </button>
             <button 
             onClick={() => handleDeleteCategory(product.id)}
@@ -212,4 +218,4 @@ const TableTwo: React.FC<TableTwoProps> = ({ responseData }) => {
   );
 };
 
-export default TableTwo;
+export default TableCard;

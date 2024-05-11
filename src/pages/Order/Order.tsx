@@ -2,8 +2,10 @@ import { useEffect, useState, createContext } from 'react';
 import DefaultLayout from '../../layout/DefaultLayout'
 import axios from 'axios';
 import OrderDetails from './OrderDetails';
+import { useLanguage } from '../../MultiLanguge/LanguageProvider ';
 
 export default function Order() {
+    const { language } = useLanguage();
     const [responseData, setResponseData] = useState(null);
     const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
     const [ischangeStatus, setischangeStatus] = useState(0);
@@ -14,7 +16,7 @@ export default function Order() {
         const url = `https://api.alorfi-store.com/superAdmin_api/change_order_status?orderId=${orderId}`;
         const headers = {
             Accept: 'application/json',
-            language: 'en',
+            language: language,
             Authorization: `Bearer ${localStorage.getItem('token')}`,
         };
 
@@ -38,7 +40,7 @@ export default function Order() {
         // الهيدر الذي يجب إرساله مع الطلب
         const headers = {
             Accept: 'application/json',
-            language: 'en',
+            language: language,
             Authorization: `Bearer ${getToken()}`, // إضافة التوكين إلى الهيدر
         };
 
@@ -57,7 +59,7 @@ export default function Order() {
                 // يتم معالجة الخطأ هنا
                 console.error('Error fetching products:', error);
             });
-    }, [ischangeStatus]);
+    }, [ischangeStatus,language]);
 
 
 

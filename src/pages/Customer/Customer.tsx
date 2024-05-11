@@ -17,7 +17,7 @@ export default function Customer() {
         // الهيدر الذي يجب إرساله مع الطلب
         const headers = {
           Accept: 'application/json',
-          perPage:'10',
+          perPage:'100',
           Authorization: `Bearer ${getToken()}`, // إضافة التوكين إلى الهيدر
         };
     
