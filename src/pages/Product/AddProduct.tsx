@@ -7,6 +7,21 @@ import SelectedCurrency from "../../components/Forms/SelectGroup/SelectedCurrenc
 import Alerts from "../UiElements/Alerts";
 import SelectBrand from "../../components/Forms/SelectGroup/SelectBrand";
 import SelectStorage from "../../components/Forms/SelectGroup/SelectStorage";
+
+interface FormData {
+  category_id: string;
+  currency_id: string;
+  name_en: string;
+  name_ar: string;
+  description_en: string;
+  description_ar: string;
+  price: string;
+  brand_id: string;
+  storage_id: string;
+  images: File[];
+  colors: Color[]; // Specify that colors is an array of Color objects
+}
+
 interface Category {
   id: number;
   name: string;
@@ -53,7 +68,7 @@ export default function AddProduct() {
   const [storages, setStorages] = useState<Storage[]>([]);
 
   const [responseStatus, setResponseStatus] = useState<string | null>(null);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     category_id: "",
     currency_id: "",
     name_en: "",
@@ -163,7 +178,7 @@ export default function AddProduct() {
       formDataToSend.append('name_en', formData.name_en);
       formDataToSend.append('name_ar', formData.name_ar);
       formDataToSend.append('description_en', formData.description_en);
-      formDataToSend.append('description_ar', formData.description_en);
+      formDataToSend.append('description_ar', formData.description_ar);
       formDataToSend.append('price', formData.price);
       formDataToSend.append('brand_id', formData.brand_id);
       formDataToSend.append('storage_id', formData.storage_id);
@@ -171,8 +186,8 @@ export default function AddProduct() {
       formData.images.forEach((image, index) => {
         formDataToSend.append(`images[${index}]`, image);
       });
-      formData.colors.forEach((colorId, index) => {
-        formDataToSend.append(`colors[${index}]`, colorId);
+      formData.colors.forEach((color, index) => {
+        formDataToSend.append(`colors[${index}]`, String(color.id));
       });
 
       console.log(formDataToSend);
@@ -248,12 +263,12 @@ export default function AddProduct() {
                 />
               </div>
               <div>
-                <label htmlFor="productNameEn" className="mb-3 block text-black dark:text-white">
-                  Product Name in Arabic:
+                <label htmlFor="descriptioninArabic" className="mb-3 block text-black dark:text-white">
+                description in Arabic:
                 </label>
                 <input
                   type="text"
-                  id="productNameEn"
+                  id="descriptioninArabic"
                   name="description_ar"
                   value={formData.description_ar}
                   onChange={handleInputChange}
@@ -262,12 +277,12 @@ export default function AddProduct() {
                 />
               </div>
               <div>
-                <label htmlFor="productNameEn" className="mb-3 block text-black dark:text-white">
-                  Product Name in English:
+                <label htmlFor="descriptioninEnglish" className="mb-3 block text-black dark:text-white">
+                  description in English:
                 </label>
                 <input
                   type="text"
-                  id="productNameEn"
+                  id="descriptioninEnglish"
                   name="description_en"
                   value={formData.description_en}
                   onChange={handleInputChange}
@@ -303,10 +318,11 @@ export default function AddProduct() {
             <div className="flex flex-col gap-5.5 p-6.5">
               <div>
                 <label className="mb-3 block text-black dark:text-white">
-                  First Photo
+                   select Photos
                 </label>
                 <input
                   type="file"
+                  multiple
                   onChange={handleFileChange}
                   className="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:py-3 file:px-5 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary"
                 />

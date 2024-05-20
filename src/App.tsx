@@ -59,6 +59,7 @@ import Card from './pages/Card/Card';
 import AddCard from './pages/Card/AddCard';
 import ProductDetails from './pages/Product/ProductDetails';
 import CategoryDetails from './pages/Category/CategoryDetails';
+import OrderDetails from './pages/Order/OrderDetails';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -450,6 +451,15 @@ function App() {
               <ProtectedRoute>
                 <PageTitle title="showadminpermission " />
                 <ShowAdminPerm />
+              </ProtectedRoute>
+            }
+          />
+                    <Route
+            path="/showorder/:orderId"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="showorder" />
+                <OrderDetails/>
               </ProtectedRoute>
             }
           />

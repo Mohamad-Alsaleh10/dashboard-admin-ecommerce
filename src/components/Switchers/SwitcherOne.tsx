@@ -17,7 +17,7 @@ const SwitcherOne = () => {
  };
 
  return (
-    <div style={{direction:"ltr"}}>
+    <div style={{direction:"ltr" , display:"flex" , gap:"2px" , alignItems:"center",flexDirection:"row"}}>
       <label
         htmlFor="toggle1"
         className="flex cursor-pointer select-none items-center"
@@ -30,6 +30,7 @@ const SwitcherOne = () => {
             checked={enabled}
             onChange={toggleLanguage}
           />
+          
           <div className="block h-8 w-14 rounded-full bg-meta-9 dark:bg-[#5A616B]"></div>
           <div
             className={`absolute left-1 top-1 h-6 w-6 rounded-full bg-white transition ${
@@ -38,6 +39,7 @@ const SwitcherOne = () => {
           ></div>
         </div>
       </label>
+      {language == 'ar' ? 'العربية' : 'English'}
     </div>
  );
 };

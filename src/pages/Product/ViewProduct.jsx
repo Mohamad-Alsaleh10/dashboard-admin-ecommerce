@@ -7,6 +7,7 @@ import { useLanguage } from '../../MultiLanguge/LanguageProvider ';
 export default function ViewProduct() {
   const [responseData, setResponseData] = useState(null);
   const { language } = useLanguage();
+  const [deletedItem,setdeletedItem]=useState(false);
   useEffect(() => {
     // دالة لجلب التوكين من localStorage
     const getToken = () => {
@@ -36,11 +37,11 @@ export default function ViewProduct() {
         // يتم معالجة الخطأ هنا
         console.error('Error fetching products:', error);
       });
-  }, [language]); // تم تحديد اعتماديات فارغة لتنفيذ الطلب مرة واحدة عند تحميل المكون
+  }, [deletedItem]); // تم تحديد اعتماديات فارغة لتنفيذ الطلب مرة واحدة عند تحميل المكون
 
   return (
     <DefaultLayout>
-        <TableTwo   responseData={responseData}/>
+        <TableTwo   responseData={responseData} deletedItem={deletedItem} setdeletedItem={setdeletedItem}/>
     </DefaultLayout>
   )
 }

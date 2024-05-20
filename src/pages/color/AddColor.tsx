@@ -1,13 +1,12 @@
 import { useState } from 'react';
-import DefaultLayout from '../../layout/DefaultLayout'
+import DefaultLayout from '../../layout/DefaultLayout';
 import axios from 'axios';
 import Alerts from '../UiElements/Alerts';
+import { SketchPicker } from 'react-color'; // Import the color picker component
 
 export default function AddColor() {
     const [responseStatus, setResponseStatus] = useState<string | null>(null);
-    const [formData, setFormData] = useState({
-        color: "",
-    });
+    const [selectedColor, setSelectedColor] = useState("#ffffff"); // Initialize with a default color
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -19,29 +18,23 @@ export default function AddColor() {
                 Authorization: `Bearer ${token}`,
             };
             const apiUrl = 'https://api.alorfi-store.com/superAdmin_api/add_color';
-            console.log(formData);
-            // Prepare FormData
+            console.log(selectedColor); // Use selectedColor directly
             const formDataToSend = new FormData();
-            formDataToSend.append('color', formData.color);
+            formDataToSend.append('color', selectedColor);
 
             console.log(formDataToSend);
             const response = await axios.post(apiUrl, formDataToSend, { headers });
             console.log('Response:', response.data);
             setResponseStatus(response.data);
-            // Handle success, redirect, or show a success message
         } catch (error) {
             console.error('Error adding product:', error);
-            // Handle error, show an error message, etc.
         }
     };
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+    const handleColorChange = (newColor: string) => {
+        setSelectedColor(newColor.hex); // Update the state with the new color
     };
+
     return (
         <DefaultLayout>
             <form onSubmit={handleSubmit}>
@@ -53,29 +46,14 @@ export default function AddColor() {
                             </h3>
                         </div>
                         <div className='flex flex-col gap-5.5 p-6.5'>
-                            <div>
-                                <label htmlFor="productNameEn" className="mb-3 block text-black dark:text-white">
-                                    color code:
-                                </label>
-                                <input
-                                    type="text"
-                                    id="colorName"
-                                    name="color"
-                                    value={formData.color}
-                                    onChange={handleInputChange}
-                                    placeholder="Default Input"
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                                />
-                            </div>
-
+                            <SketchPicker color={selectedColor} onChangeComplete={handleColorChange} /> {/* Use the color picker */}
                         </div>
                     </div>
 
                     <button type="submit" className="inline-flex items-center justify-center rounded-md bg-black py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10">Add </button>
                     {responseStatus && <Alerts responseStatus={responseStatus} />}
-
                 </div>
             </form>
-        </DefaultLayout >
-    )
+        </DefaultLayout>
+    );
 }

@@ -12,7 +12,7 @@ interface Props {
   setFormData: React.Dispatch<React.SetStateAction<{ colors: Color[] }>>;
 }
 
-const ColorPicker: React.FC<Props> = ({ formData, setFormData }) => {
+const ColorPickerUpdate: React.FC<Props> = ({ formData, setFormData }) => {
   const [colors, setColors] = useState<Color[]>([]);
 
   useEffect(() => {
@@ -38,19 +38,29 @@ const ColorPicker: React.FC<Props> = ({ formData, setFormData }) => {
 
   const handleColorSelection = (color: Color) => {
     const isSelected = formData.colors.some(c => c.id === color.id);
-
+    
+    let updatedColors: Color[];
+    
     if (isSelected) {
-      setFormData({
-        ...formData,
-        colors: formData.colors.filter(c => c.id !== color.id),
-      });
+      updatedColors = formData.colors.filter(c => c.id !== color.id);
     } else {
-      setFormData({
-        ...formData,
-        colors: [...formData.colors, color],
-      });
+      updatedColors = [...formData.colors, color];
     }
+    
+    // Format colors as colors[0]="1", colors[1]="2", etc.
+    const formattedColors = updatedColors.map((color, index) => ({
+      [`colors[${index}]`]: color.id.toString() // Ensure color ID is converted to string
+    }));
+    
+    // Update formData with formatted colors
+    setFormData({
+      ...formData,
+      colors: updatedColors,
+      ...formattedColors.reduce((prev, current) => ({ ...prev, ...current }), {})
+    });
   };
+  
+  
 
   return (
     <div>
@@ -72,4 +82,4 @@ const ColorPicker: React.FC<Props> = ({ formData, setFormData }) => {
   );
 };
 
-export default ColorPicker;
+export default ColorPickerUpdate;

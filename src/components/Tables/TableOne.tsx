@@ -3,8 +3,11 @@ import CategoryDetails from '../../pages/Category/CategoryDetails';
 import axios from 'axios';
 import DeleteAlert from '../../pages/UiElements/DeleteAlert';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../../MultiLanguge/LanguageProvider ';
+import translations from './../../MultiLanguge/translations';
 
 const TableOne = ({ responseData }) => {
+  const { language } = useLanguage();
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [deletedItem, setdeletedItem] = useState(false);
 
@@ -51,29 +54,29 @@ const TableOne = ({ responseData }) => {
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
      
       <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
-        Categories
+        {translations[language].Categories}
       </h4>
 
       <div className="flex flex-col">
         <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
           <div className="p-2.5 xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              name
+              {translations[language].name}
             </h5>
           </div>
           <div className="p-2.5 text-center xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              is active
+              {translations[language].isactive}
             </h5>
           </div>
           <div className="p-2.5 text-center xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              image
+              {translations[language].image}
             </h5>
           </div>
           <div className="p-2.5 text-center xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              action
+              {translations[language].action}
             </h5>
           </div>
         </div>

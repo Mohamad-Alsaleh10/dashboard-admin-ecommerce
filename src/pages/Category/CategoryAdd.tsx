@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import DefaultLayout from '../../layout/DefaultLayout';
 import axios from 'axios';
 import Alerts from '../UiElements/Alerts';
+import { useLanguage } from '../../MultiLanguge/LanguageProvider ';
+import translations from './../../MultiLanguge/translations';
 
 export default function CategoryAdd() {
-
+    const { language } = useLanguage();
 
     const [formData, setFormData] = useState({
         name_ar: '',
@@ -74,13 +76,13 @@ export default function CategoryAdd() {
                     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                         <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
                             <h3 className="font-medium text-black dark:text-white">
-                                Add Category
+                                {translations[language].AddNewCategory}
                             </h3>
                         </div>
                         <div className="flex flex-col gap-5.5 p-6.5">
                             <div>
                                 <label htmlFor="categoryNameAr" className="mb-3 block text-black dark:text-white">
-                                    Name in Arabic:
+                                    {translations[language].nameinarabic}
                                 </label>
                                 <input
                                     type="text"
@@ -94,7 +96,7 @@ export default function CategoryAdd() {
                             </div>
                             <div>
                                 <label htmlFor="categoryNameEn" className="mb-3 block text-black dark:text-white">
-                                    Name in English:
+                                    {translations[language].nameinenglish}
                                 </label>
                                 <input
                                     type="text"
@@ -112,13 +114,13 @@ export default function CategoryAdd() {
                     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                         <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
                             <h3 className="font-medium text-black dark:text-white">
-                                Photo upload
+                                {translations[language].Photoupload}
                             </h3>
                         </div>
                         <div className="flex flex-col gap-5.5 p-6.5">
                             <div>
                                 <label className="mb-3 block text-black dark:text-white">
-                                    Select Photos
+                                    {translations[language].SelectPhotos}
                                 </label>
                                 <input
                                     type="file"

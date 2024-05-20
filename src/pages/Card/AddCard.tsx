@@ -100,57 +100,7 @@ export default function AddCard() {
       });
   }, []);
 
-  useEffect(() => {
-    const getToken = () => {
-      return localStorage.getItem('token');
-    };
 
-    // الهيدر الذي يجب إرساله مع الطلب
-    const headers = {
-      Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
-    };
-
-    // الرابط الذي سنرسل إليه الطلب لجلب المنتجات
-    const apiUrl = 'https://api.alorfi-store.com/superAdmin_api/show_brands';
-    axios.get(apiUrl, { headers })
-      .then(response => {
-        console.log(response.data.data);
-        setBrands(response.data.data);
-
-      })
-      .catch(error => {
-        console.error('Error fetching :', error);
-      });
-
-
-  }, []);
-
-  useEffect(() => {
-    const getToken = () => {
-      return localStorage.getItem('token');
-    };
-
-    // الهيدر الذي يجب إرساله مع الطلب
-    const headers = {
-      Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
-    };
-
-    // الرابط الذي سنرسل إليه الطلب لجلب المنتجات
-    const apiUrl = 'https://api.alorfi-store.com/superAdmin_api/show_storages';
-    axios.get(apiUrl, { headers })
-      .then(response => {
-        console.log(response.data.data);
-        setStorages(response.data.data);
-
-      })
-      .catch(error => {
-        console.error('Error fetching :', error);
-      });
-
-
-  }, []);
   // handle submit 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();

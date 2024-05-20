@@ -39,43 +39,54 @@ const ProductDetails = () => {
             });
     }, [itemId, language]);
 
-    if (!productDetails) {
-        return null;
-    }
 
     return (
         <DefaultLayout>
-            <div className='mb-4 p-10'>
-                <h2 className='mb-6 text-xl font-semibold text-black dark:text-white'>Name : {productDetails.name} </h2>
-                <h2 className='mb-6 text-xl font-semibold text-black dark:text-white'>category : {productDetails.category_name} </h2>
-                <h2 className='mb-6 text-xl font-semibold text-black dark:text-white'>description : {productDetails.description} </h2>
-                <h2 className='mb-6 text-xl font-semibold text-black dark:text-white'>price : {productDetails.price} {productDetails.currency.name}</h2>
-                <h2 className='mb-6 text-xl font-semibold text-black dark:text-white'>offer price : {productDetails.offer_price} </h2>
-                <h2 className='mb-6 text-xl font-semibold text-black dark:text-white'>
-                    Brand : {productDetails?.brand?.name ? productDetails.brand.name : "N/A"}
-                </h2>
-                <h2 className='mb-6 text-xl font-semibold text-black dark:text-white'>
-                    Storage : {productDetails?.storage?.size && productDetails?.storage?.unit ? `${productDetails.storage.size} ${productDetails.storage.unit}` : "N/A"}
-                </h2>
-                <div style={{ marginBottom: "20px" }}>
-                    <h2 className='mb-6 text-xl font-semibold text-black dark:text-white'>colors : </h2>
-                    <div style={{ display: "flex", gap: "4px" }}>
-                        {productDetails.colors.map((color, index) => (
-                            <div style={{ background: color.color, width: "60px", height: "60px" }}></div>
-                        ))}
+
+            {
+                productDetails &&
+                <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                    <div className="px-5 pb-5">
+                        <div>
+                            <div style={{ display: "flex", flexWrap: "wrap", gap: "17px" }} >
+                                {productDetails.images.map((image, index) => (
+                                    <img style={{ width: "40%" }} key={index} src={`https://api.alorfi-store.com/storage/${image.url}`} alt={`Image ${index + 1}`} />
+                                ))}
+                            </div>
+                        </div>
+                        <a href="#">
+                            <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{productDetails.name}</h5>
+                        </a>
+                        <div className="flex items-center mt-2.5 mb-5">
+                            <div className="flex items-center space-x-1 rtl:space-x-reverse">
+                                {productDetails.description}
+                            </div>
+                            <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">{productDetails.category_name}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <span className="text-3xl font-bold text-gray-900 dark:text-white">{productDetails.price} {productDetails.currency.name}</span>
+                            <p className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Brand : {productDetails?.brand?.name ? productDetails.brand.name : "N/A"}</p>
+                        </div>
+                        <div className="flex items-center space-x-1 rtl:space-x-reverse">offer price : {productDetails.offer_price} </div>
+                        <div className="flex items-center space-x-1 rtl:space-x-reverse">
+                            Storage : {productDetails?.storage?.size && productDetails?.storage?.unit ? `${productDetails.storage.size} ${productDetails.storage.unit}` : "N/A"}
+                        </div>
+                        <div style={{ marginBottom: "20px" }}>
+                            <div className='className="flex items-center space-x-1 rtl:space-x-reverse"'>colors : </div>
+                            <div style={{ display: "flex", gap: "4px" }}>
+                                {productDetails.colors.map((color, index) => (
+                                    <div style={{ background: color.color, width: "40px", height: "40px" , borderRadius:"50%"}}></div>
+                                ))}
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-                <div>
-                    <h2 className='mb-6 text-xl font-semibold text-black dark:text-white' >images : </h2>
-                    <div style={{ width: "40%" }} >
-                        {productDetails.images.map((image, index) => (
-                            <img key={index} src={`https://api.alorfi-store.com/storage/${image.url}`} alt={`Image ${index + 1}`} />
-                        ))}
-                    </div>
-                </div>
-                {/* Display other category details as needed */}
-            </div>
-        </DefaultLayout>
+            }
+
+
+
+        </DefaultLayout >
 
     );
 };

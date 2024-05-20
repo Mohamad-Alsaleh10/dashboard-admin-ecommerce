@@ -4,13 +4,17 @@ import ProductDetails from '../../pages/Product/ProductDetails';
 import axios from 'axios';
 import DeleteAlert from '../../pages/UiElements/DeleteAlert';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../../MultiLanguge/LanguageProvider ';
+import translations from './../../MultiLanguge/translations';
 
 interface TableTwoProps {
   responseData: Product[];
+  setdeletedItem:Boolean;
+  deletedItem:Boolean;
 }
 
-const TableTwo: React.FC<TableTwoProps> = ({ responseData }) => {
-  const [deletedItem, setdeletedItem] = useState(false);
+const TableTwo: React.FC<TableTwoProps> = ({ responseData ,setdeletedItem ,deletedItem}) => {
+  const { language } = useLanguage();
   const [selectedProductId, setselectedProductId] = useState(null);
   const handleProductClick = (ProductId) => {
     setselectedProductId(ProductId);
@@ -33,11 +37,10 @@ const TableTwo: React.FC<TableTwoProps> = ({ responseData }) => {
 
       // Check if deletion was successful
       if (response.status === 200){
-        setdeletedItem(true);
+        setdeletedItem(!deletedItem);
         console.log('success');
-        window.location.reload();
       } else {
-        setdeletedItem(false);
+        setdeletedItem(!deletedItem);
         console.error("Deletion failed");
       }
     } catch (error) {
@@ -53,31 +56,31 @@ const TableTwo: React.FC<TableTwoProps> = ({ responseData }) => {
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="py-6 px-4 md:px-6 xl:px-7.5">
         <h4 className="text-xl font-semibold text-black dark:text-white">
-          Products
+          {translations[language].Products}
         </h4>
       </div>
 
       <div className="flex justify-between border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
         <div className="col-span-2 flex items-center">
-          <p className="font-medium">Name</p>
+          <p className="font-medium">{translations[language].name}</p>
         </div>
         <div className="col-span-1 hidden items-center sm:flex">
-          <p className="font-small">Category</p>
+          <p className="font-small">{translations[language].Category}</p>
         </div>
 
         <div className="col-span-1 flex items-center">
-          <p className="font-medium">price</p>
+          <p className="font-medium">{translations[language].price}</p>
         </div>
 
         <div className="col-span-1 flex items-center">
-          <p className="font-medium">currency</p>
+          <p className="font-medium">{translations[language].currency}</p>
         </div>
         <div className="col-span-1 flex items-center">
-          <p className="font-medium">active</p>
+          <p className="font-medium">{translations[language].isactive}</p>
         </div>
 
         <div className="col-span-1 flex items-center">
-          <p className="font-medium">Action</p>
+          <p className="font-medium">{translations[language].action}</p>
         </div>
       </div>
 

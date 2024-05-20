@@ -23,7 +23,26 @@ const translations = {
       addlink:"add link",
       notification:"notification",
       addnotification:"add notification",
-      admins:"admins"
+      admins:"admins",
+      name:"name",
+      isactive:"is active",
+      image:"image",
+      action:"action",
+      nameinarabic:"name in arabic",
+      nameinenglish:"name in english",
+      Photoupload:"Photo upload",
+      SelectPhotos:"Select Photos",
+      settings:"settings",
+      addsettings:"add settings",
+      changecurrency:"change currency",
+      price:"Price",
+      currency:"currency",
+      Category:"Category",
+
+
+
+
+
 
 
 
@@ -57,7 +76,28 @@ const translations = {
       addlink:"إضافة لينك",
       notification:"الإشعارات",
       addnotification:"إضافة إشعارات",
-      admins:"الأدمن"
+      admins:"الأدمن",
+      name:"الاسم",
+      isactive:"الحالة",  
+      image:"الصورة",
+      action:"الحدث",
+      nameinarabic:"الاسم باللغة العربية",
+      nameinenglish:"الاسم باللغة الانكليزية",
+      Photoupload:"تحميل صورة",
+      SelectPhotos:"اختر صور",
+      settings:"الإعدادات",
+      addsettings:"إضافة إعدادات",
+      changecurrency:"تغيير العملات",
+      price:"السعر",
+      currency:"العملات",
+      Category:"الفئة",
+
+
+
+
+
+
+
 
 
 

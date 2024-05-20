@@ -8,6 +8,7 @@ import Alerts from "../UiElements/Alerts";
 import SelectBrand from "../../components/Forms/SelectGroup/SelectBrand";
 import SelectStorage from "../../components/Forms/SelectGroup/SelectStorage";
 import { useParams } from "react-router-dom";
+import ColorPickerUpdate from "../../components/ColorPickerUpdate";
 interface Category {
   id: number;
   name: string;
@@ -148,6 +149,7 @@ export default function UpdateProduct() {
   }, []);
   // handle submit 
   const handleSubmit = async (event: React.FormEvent) => {
+
     event.preventDefault();
 
     try {
@@ -165,7 +167,7 @@ export default function UpdateProduct() {
       formDataToSend.append('name_en', formData.name_en);
       formDataToSend.append('name_ar', formData.name_ar);
       formDataToSend.append('description_en', formData.description_en);
-      formDataToSend.append('description_ar', formData.description_en);
+      formDataToSend.append('description_ar', formData.description_ar);
       formDataToSend.append('price', formData.price);
       formDataToSend.append('brand_id', formData.brand_id);
       formDataToSend.append('storage_id', formData.storage_id);
@@ -174,7 +176,7 @@ export default function UpdateProduct() {
         formDataToSend.append(`images[${index}]`, image);
       });
       formData.colors.forEach((colorId, index) => {
-        formDataToSend.append(`colors[${index}]`, colorId);
+        formDataToSend.append(`colors[${index}]`, colorId.id);
       });
 
       console.log(formDataToSend);
@@ -222,12 +224,12 @@ export default function UpdateProduct() {
               <SelectGroupTwo name="category" items={categories} formData={formData} setFormData={setFormData} />
               <SelectedCurrency name="currency" items={currencies} formData={formData} setFormData={setFormData} />
               <div>
-                <label htmlFor="productNameEn" className="mb-3 block text-black dark:text-white">
+                <label htmlFor="productNamear" className="mb-3 block text-black dark:text-white">
                   Product Name in Arabic:
                 </label>
                 <input
                   type="text"
-                  id="productNameEn"
+                  id="productNamear"
                   name="name_ar"
                   value={formData.name_ar}
                   onChange={handleInputChange}
@@ -250,12 +252,12 @@ export default function UpdateProduct() {
                 />
               </div>
               <div>
-                <label htmlFor="productNameEn" className="mb-3 block text-black dark:text-white">
-                  Product Name in Arabic:
+                <label htmlFor="descriptionar" className="mb-3 block text-black dark:text-white">
+                decription in Arabic:
                 </label>
                 <input
                   type="text"
-                  id="productNameEn"
+                  id="descriptionar"
                   name="description_ar"
                   value={formData.description_ar}
                   onChange={handleInputChange}
@@ -264,12 +266,12 @@ export default function UpdateProduct() {
                 />
               </div>
               <div>
-                <label htmlFor="productNameEn" className="mb-3 block text-black dark:text-white">
-                  Product Name in English:
+                <label htmlFor="descriptionen" className="mb-3 block text-black dark:text-white">
+                  decription in English:
                 </label>
                 <input
                   type="text"
-                  id="productNameEn"
+                  id="descriptionen"
                   name="description_en"
                   value={formData.description_en}
                   onChange={handleInputChange}
@@ -278,12 +280,12 @@ export default function UpdateProduct() {
                 />
               </div>
               <div>
-                <label htmlFor="productNameEn" className="mb-3 block text-black dark:text-white">
+                <label htmlFor="productprice" className="mb-3 block text-black dark:text-white">
                   Price:
                 </label>
                 <input
                   type="text"
-                  id="productNameEn"
+                  id="productprice"
                   name="price"
                   value={formData.price}
                   onChange={handleInputChange}
@@ -305,10 +307,11 @@ export default function UpdateProduct() {
             <div className="flex flex-col gap-5.5 p-6.5">
               <div>
                 <label className="mb-3 block text-black dark:text-white">
-                  First Photo
+                  Select Photos
                 </label>
                 <input
                   type="file"
+                  multiple
                   onChange={handleFileChange}
                   className="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:py-3 file:px-5 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary"
                 />
@@ -316,9 +319,9 @@ export default function UpdateProduct() {
             </div>
           </div>
 
-          <ColorPicker formData={formData} setFormData={setFormData} />
+          <ColorPickerUpdate formData={formData} setFormData={setFormData} />
 
-          <button type="submit" className="inline-flex items-center justify-center rounded-md bg-black py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10">Add</button>
+          <button type="submit" className="inline-flex items-center justify-center rounded-md bg-black py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10">Update</button>
         </div>
         {responseStatus && <Alerts responseStatus={responseStatus} />}
       </form>

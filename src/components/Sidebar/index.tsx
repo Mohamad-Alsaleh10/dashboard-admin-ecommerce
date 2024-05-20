@@ -1552,7 +1552,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                               fill=""
                             />
                           </svg>
-                          settings
+                           {translations[language].settings}
                           <svg
                             className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${open && 'rotate-180'
                               }`}
@@ -1585,7 +1585,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                   (isActive && '!text-white')
                                 }
                               >
-                                settings
+                                {translations[language].settings}
                               </NavLink>
                             </li>
                             <li>
@@ -1596,7 +1596,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                   (isActive && '!text-white')
                                 }
                               >
-                                add settings
+                                {translations[language].addsettings}
                               </NavLink>
                             </li>
                             {permissions.includes('currency_management') && (
@@ -1608,7 +1608,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                     (isActive && '!text-white')
                                   }
                                 >
-                                  change currency
+                                  {translations[language].changecurrency}
                                 </NavLink>
                               </li>
                             )}

@@ -3,6 +3,7 @@ import DefaultLayout from '../../layout/DefaultLayout'
 import axios from 'axios';
 import OrderDetails from './OrderDetails';
 import { useLanguage } from '../../MultiLanguge/LanguageProvider ';
+import { Link } from 'react-router-dom';
 
 export default function Order() {
     const { language } = useLanguage();
@@ -173,6 +174,8 @@ export default function Order() {
                                             >
                                                 <option value="pending">Pending</option>
                                                 <option value="canceled">Canceled</option>
+                                                <option value="accepted">accepted</option>
+
                                             </select>
                                         </td>
                                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -183,14 +186,12 @@ export default function Order() {
                                             </p>
                                         </td>
                                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                            <button
-                                                onClick={() => handleShowClick(packageItem.id)} // Assuming packageItem has an id property
-
-                                                style={{ color: "green" }}
+                                        <Link to={`/showorder/${packageItem.id}`}
                                                 className="inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium "
-                                            >
-                                                show
-                                            </button>
+                                        >
+                                          show
+                                        </Link>
+
                                         </td>
 
                                     </tr>
