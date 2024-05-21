@@ -10,9 +10,10 @@ interface Color {
 interface Props {
   formData: { colors: Color[] };
   setFormData: React.Dispatch<React.SetStateAction<{ colors: Color[] }>>;
+  name:string;
 }
 
-const ColorPickerUpdate: React.FC<Props> = ({ formData, setFormData }) => {
+const ColorPickerUpdate: React.FC<Props> = ({ formData, setFormData,name }) => {
   const [colors, setColors] = useState<Color[]>([]);
 
   useEffect(() => {
@@ -64,7 +65,7 @@ const ColorPickerUpdate: React.FC<Props> = ({ formData, setFormData }) => {
 
   return (
     <div>
-      <h3 className="font-medium text-black dark:text-white">Select Color:</h3>
+      <h3 className="font-medium text-black dark:text-white">{name}</h3>
       <div className="flex flex-wrap mt-2">
         {colors.map(color => (
           <div

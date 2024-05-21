@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface Item {
   id: number;
@@ -9,11 +9,12 @@ interface Props {
   name: string;
   items: Item[];
   formData: any;
+  ProductDetails:any;
   setFormData: React.Dispatch<React.SetStateAction<any>>;
 }
 
-const SelectedCurrency: React.FC<Props> = ({ name, items, formData, setFormData }) => {
-  console.log(items);
+const SelectedCurrency: React.FC<Props> = ({ name, items, formData, setFormData ,ProductDetails}) => {
+
   const handleInputChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { name: inputName, value } = event.target;
     setFormData({
@@ -29,7 +30,7 @@ const SelectedCurrency: React.FC<Props> = ({ name, items, formData, setFormData 
       </label>
       <select
         name="currency_id"
-        value={formData[name]}
+        value={formData.currency_id}
         onChange={handleInputChange}
         className="w-full rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white"
       >

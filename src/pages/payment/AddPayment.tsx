@@ -70,7 +70,7 @@ export default function AddPayment() {
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
               <div>
-                <label htmlFor="categoryNameAr" className="mb-3 block text-black dark:text-white">
+                <label htmlFor="paymentNameAr" className="mb-3 block text-black dark:text-white">
                   Name in Arabic:
                 </label>
                 <input
@@ -84,7 +84,7 @@ export default function AddPayment() {
                 />
               </div>
               <div>
-                <label htmlFor="categoryNameEn" className="mb-3 block text-black dark:text-white">
+                <label htmlFor="paymentNameEn" className="mb-3 block text-black dark:text-white">
                   Name in English:
                 </label>
                 <input
@@ -98,7 +98,7 @@ export default function AddPayment() {
                 />
               </div>
               <div>
-                <label htmlFor="categoryNameEn" className="mb-3 block text-black dark:text-white">
+                <label htmlFor="content" className="mb-3 block text-black dark:text-white">
                   content:
                 </label>
                 <input

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import DefaultLayout from '../../layout/DefaultLayout'
 import axios from 'axios';
+import { useLanguage } from '../../MultiLanguge/LanguageProvider ';
+import translations from './../../MultiLanguge/translations';
 interface Color {
     id: number;
     name: string;
@@ -13,6 +15,7 @@ interface Props {
 }
 export default function ViewBrands() {
     const [brands, setBrands] = useState<Color[]>([]);
+    const { language } = useLanguage();
     useEffect(() => {
         const fetchColors = async () => {
             try {
@@ -34,7 +37,7 @@ export default function ViewBrands() {
     }, []);
     return (
         <DefaultLayout>
-            <h1 className='font-medium text-black dark:text-white'>All Brands</h1>
+            <h1 className='font-medium text-black dark:text-white'>{translations[language].brands}</h1>
             <div
                 style={{
                     display: "flex",

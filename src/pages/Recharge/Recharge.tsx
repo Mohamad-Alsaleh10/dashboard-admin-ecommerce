@@ -58,7 +58,7 @@ export default function Recharge() {
                         </div>
                         <div className='flex flex-col gap-5.5 p-6.5'>
                             <div>
-                                <label htmlFor="productNameEn" className="mb-3 block text-black dark:text-white">
+                                <label htmlFor="quantityName" className="mb-3 block text-black dark:text-white">
                                 quantity :
                                 </label>
                                 <input

@@ -3,6 +3,7 @@ import axios from 'axios';
 import DefaultLayout from '../../layout/DefaultLayout';
 import { useLanguage } from '../../MultiLanguge/LanguageProvider ';
 import { useParams } from 'react-router-dom';
+import translations from './../../MultiLanguge/translations';
 
 const CategoryDetails = () => {
   const [categoryDetails, setCategoryDetails] = useState(null);
@@ -74,13 +75,13 @@ const CategoryDetails = () => {
         <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='bg-white shadow-md rounded-lg p-6 mb-8'>
             <h2 className='text-2xl font-bold mb-4'>{categoryDetails.name}</h2>
-            <p className='text-gray-600 mb-4'>Images:</p>
+            <p className='text-gray-600 mb-4'>{translations[language].images}</p>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
               {categoryDetails.images.map((image, index) => (
                 <img key={index} src={`https://api.alorfi-store.com/storage/${image.url}`} alt={`Image ${index + 1}`} className='w-full h-auto rounded-lg shadow-sm' />
               ))}
             </div>
-            <h2 className='text-xl font-medium mt-8 mb-4'>Products</h2>
+            <h2 className='text-xl font-medium mt-8 mb-4'>{translations[language].Products}</h2>
             <ul className='list-disc pl-5 space-y-2'>
               {categoryProducts ?
                 categoryProducts.map((product, key) => (

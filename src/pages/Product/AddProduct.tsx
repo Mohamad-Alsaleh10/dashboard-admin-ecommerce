@@ -7,6 +7,8 @@ import SelectedCurrency from "../../components/Forms/SelectGroup/SelectedCurrenc
 import Alerts from "../UiElements/Alerts";
 import SelectBrand from "../../components/Forms/SelectGroup/SelectBrand";
 import SelectStorage from "../../components/Forms/SelectGroup/SelectStorage";
+import { useLanguage } from '../../MultiLanguge/LanguageProvider ';
+import translations from './../../MultiLanguge/translations';
 
 interface FormData {
   category_id: string;
@@ -63,6 +65,7 @@ export default function AddProduct() {
     }
   ];
 
+  const { language } = useLanguage();
   const [categories, setCategories] = useState<Category[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
   const [storages, setStorages] = useState<Storage[]>([]);
@@ -228,19 +231,19 @@ export default function AddProduct() {
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
-                Add Products
+                {translations[language].AddNewProduct}
               </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
-              <SelectGroupTwo name="category" items={categories} formData={formData} setFormData={setFormData} />
-              <SelectedCurrency name="currency" items={currencies} formData={formData} setFormData={setFormData} />
+              <SelectGroupTwo name={translations[language].Category} items={categories} formData={formData} setFormData={setFormData} />
+              <SelectedCurrency name={translations[language].currency} items={currencies} formData={formData} setFormData={setFormData} />
               <div>
-                <label htmlFor="productNameEn" className="mb-3 block text-black dark:text-white">
-                  Product Name in Arabic:
+                <label htmlFor="productNamear" className="mb-3 block text-black dark:text-white">
+                {translations[language].nameinarabic}
                 </label>
                 <input
                   type="text"
-                  id="productNameEn"
+                  id="productNamear"
                   name="name_ar"
                   value={formData.name_ar}
                   onChange={handleInputChange}
@@ -250,7 +253,7 @@ export default function AddProduct() {
               </div>
               <div>
                 <label htmlFor="productNameEn" className="mb-3 block text-black dark:text-white">
-                  Product Name in English:
+                  {translations[language].nameinenglish}
                 </label>
                 <input
                   type="text"
@@ -264,7 +267,7 @@ export default function AddProduct() {
               </div>
               <div>
                 <label htmlFor="descriptioninArabic" className="mb-3 block text-black dark:text-white">
-                description in Arabic:
+                {translations[language].descinarabic}
                 </label>
                 <input
                   type="text"
@@ -278,7 +281,7 @@ export default function AddProduct() {
               </div>
               <div>
                 <label htmlFor="descriptioninEnglish" className="mb-3 block text-black dark:text-white">
-                  description in English:
+                  {translations[language].descinenglish}
                 </label>
                 <input
                   type="text"
@@ -291,12 +294,12 @@ export default function AddProduct() {
                 />
               </div>
               <div>
-                <label htmlFor="productNameEn" className="mb-3 block text-black dark:text-white">
-                  Price:
+                <label htmlFor="price" className="mb-3 block text-black dark:text-white">
+                  {translations[language].price}
                 </label>
                 <input
                   type="text"
-                  id="productNameEn"
+                  id="price"
                   name="price"
                   value={formData.price}
                   onChange={handleInputChange}
@@ -304,21 +307,21 @@ export default function AddProduct() {
                   className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                 />
               </div>
-              <SelectBrand name="brand" items={brands} formData={formData} setFormData={setFormData} />
-              <SelectStorage name="Storage" items={storages} formData={formData} setFormData={setFormData} />
+              <SelectBrand name={translations[language].brand} items={brands} formData={formData} setFormData={setFormData} />
+              <SelectStorage name={translations[language].storage} items={storages} formData={formData} setFormData={setFormData} />
             </div>
           </div>
 
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
-                Photo upload
+                {translations[language].Photoupload}
               </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
               <div>
                 <label className="mb-3 block text-black dark:text-white">
-                   select Photos
+                   {translations[language].SelectPhotos}
                 </label>
                 <input
                   type="file"
@@ -330,7 +333,7 @@ export default function AddProduct() {
             </div>
           </div>
 
-          <ColorPicker formData={formData} setFormData={setFormData} />
+          <ColorPicker name={translations[language].selectColor} formData={formData} setFormData={setFormData} />
 
           <button type="submit" className="inline-flex items-center justify-center rounded-md bg-black py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10">Add</button>
         </div>

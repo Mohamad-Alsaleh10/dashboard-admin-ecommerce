@@ -114,7 +114,7 @@ export default function AddLink() {
                                 </select>
                             </div>
                             <div>
-                                <label htmlFor="icon" className="mb-3 block text-black dark:text-white">
+                                <label htmlFor="url" className="mb-3 block text-black dark:text-white">
                                 url
                                 </label>
                                 <input

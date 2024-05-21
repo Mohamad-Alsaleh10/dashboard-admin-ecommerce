@@ -61,7 +61,7 @@ export default function UpdatePayment() {
               </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
-              <label htmlFor="categoryNameEn" className="mb-3 block text-black dark:text-white">
+              <label htmlFor="content" className="mb-3 block text-black dark:text-white">
                 content:
               </label>
               <input

@@ -2,8 +2,10 @@ import { useState } from 'react';
 import DefaultLayout from '../../layout/DefaultLayout'
 import axios from 'axios';
 import Alerts from '../UiElements/Alerts';
-
+import { useLanguage } from '../../MultiLanguge/LanguageProvider ';
+import translations from './../../MultiLanguge/translations';
 export default function AddBrand() {
+    const { language } = useLanguage();
     const [responseStatus, setResponseStatus] = useState<string | null>(null);
     const [formData, setFormData] = useState({
         name: "",
@@ -49,13 +51,13 @@ export default function AddBrand() {
                     <div className='className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark"'>
                         <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
                             <h3 className="font-medium text-black dark:text-white">
-                                Add Brand
+                            {translations[language].AddNewbrand}
                             </h3>
                         </div>
                         <div className='flex flex-col gap-5.5 p-6.5'>
                             <div>
-                                <label htmlFor="productNameEn" className="mb-3 block text-black dark:text-white">
-                                    Brand Name:
+                                <label htmlFor="brandName" className="mb-3 block text-black dark:text-white">
+                                    {translations[language].name}
                                 </label>
                                 <input
                                     type="text"

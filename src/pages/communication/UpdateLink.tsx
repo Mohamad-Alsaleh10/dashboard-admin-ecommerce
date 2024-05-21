@@ -61,7 +61,7 @@ export default function UpdateLink() {
               </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
-              <label htmlFor="categoryNameEn" className="mb-3 block text-black dark:text-white">
+              <label htmlFor="url" className="mb-3 block text-black dark:text-white">
                 URL:
               </label>
               <input

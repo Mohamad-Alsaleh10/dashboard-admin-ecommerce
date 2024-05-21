@@ -82,7 +82,7 @@ export default function AddApp() {
                         </div>
                         <div className="flex flex-col gap-5.5 p-6.5">
                             <div>
-                                <label htmlFor="categoryNameAr" className="mb-3 block text-black dark:text-white">
+                                <label htmlFor="nameapp" className="mb-3 block text-black dark:text-white">
                                     Name
                                 </label>
                                 <input

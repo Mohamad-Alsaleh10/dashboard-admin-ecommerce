@@ -30,6 +30,8 @@ const translations = {
       action:"action",
       nameinarabic:"name in arabic",
       nameinenglish:"name in english",
+      descinarabic:"Description in Arabic",
+      descinenglish:"Description in English",
       Photoupload:"Photo upload",
       SelectPhotos:"Select Photos",
       settings:"settings",
@@ -38,6 +40,17 @@ const translations = {
       price:"Price",
       currency:"currency",
       Category:"Category",
+      images:"images",
+      brand:"brand",
+      storage:"storage",
+      selectColor:"select Color",
+      update:"update",
+      size:"size",
+      unit:"unit",
+
+
+
+
 
 
 
@@ -59,7 +72,7 @@ const translations = {
       AddNewCategory:"إضافة فئة جديدة",
       Products:"المنتجات",
       AddNewProduct:"إضافة منتج جديد",
-      colors:"الالوان",
+      colors:"الألوان",
       AddNewcolor:"إضافة لون جديد",
       brands:"العلامات التجارية",
       AddNewbrand:"إضافة علامة تجارية",
@@ -77,12 +90,14 @@ const translations = {
       notification:"الإشعارات",
       addnotification:"إضافة إشعارات",
       admins:"الأدمن",
-      name:"الاسم",
+      name:"الأسم",
       isactive:"الحالة",  
       image:"الصورة",
       action:"الحدث",
       nameinarabic:"الاسم باللغة العربية",
       nameinenglish:"الاسم باللغة الانكليزية",
+      descinarabic:"الوصف باللغة العربية",
+      descinenglish:"الوصف باللغة الإنكليزية",
       Photoupload:"تحميل صورة",
       SelectPhotos:"اختر صور",
       settings:"الإعدادات",
@@ -91,6 +106,14 @@ const translations = {
       price:"السعر",
       currency:"العملات",
       Category:"الفئة",
+      images:"الصور",
+      brand:"البراند",
+      storage:"التخزين",
+      selectColor:"اختر لون",
+      update:"تعديل",
+      size:"الحجم",
+      unit:"وحدة التخزين",
+
 
 
 
