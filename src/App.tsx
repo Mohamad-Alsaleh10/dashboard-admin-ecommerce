@@ -60,6 +60,8 @@ import AddCard from './pages/Card/AddCard';
 import ProductDetails from './pages/Product/ProductDetails';
 import CategoryDetails from './pages/Category/CategoryDetails';
 import OrderDetails from './pages/Order/OrderDetails';
+import Offer from './pages/offer/Offer';
+import AddOffer from './pages/offer/AddOffer';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -202,7 +204,7 @@ function App() {
             path="/updateproducts/:itemId"
             element={
               <ProtectedRoute>
-                <PageTitle title="ViewProduct " />
+                <PageTitle title="UpdateProduct " />
                 <UpdateProduct />
               </ProtectedRoute>
             }
@@ -213,6 +215,24 @@ function App() {
               <ProtectedRoute>
                 <PageTitle title="colors " />
                 <ViewColors />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/offers"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="Offer" />
+                <Offer />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/addoffers"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="add Offer" />
+                <AddOffer />
               </ProtectedRoute>
             }
           />

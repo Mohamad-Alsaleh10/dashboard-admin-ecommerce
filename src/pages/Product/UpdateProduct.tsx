@@ -129,21 +129,36 @@ export default function UpdateProduct() {
   // When setting form data, check if ProductDetails is not null
   useEffect(() => {
     if (ProductDetails) {
-      setFormData({
-        category_id: ProductDetails.category_id,
-        currency_id: ProductDetails.currency.id,
-        name_en: ProductDetails.name2,
-        name_ar: ProductDetails.name,
-        description_en: ProductDetails.description2,
-        description_ar: ProductDetails.description,
-        price: ProductDetails.price,
-        brand_id: ProductDetails.brand.id,
-        storage_id: ProductDetails.storage.id,
-        images: [] as File[],
-        colors: [],
-      });
+      if (ProductDetails.brand?.id && ProductDetails.storage?.id) {
+        setFormData({
+          category_id: ProductDetails.category_id,
+          currency_id: ProductDetails.currency.id,
+          name_en: ProductDetails.name2,
+          name_ar: ProductDetails.name,
+          description_en: ProductDetails.description2,
+          description_ar: ProductDetails.description,
+          price: ProductDetails.price,
+          brand_id: ProductDetails.brand.id,
+          storage_id: ProductDetails.storage.id,
+          images: [] as File[],
+          colors: [],
+        });
+      } else {
+        setFormData({
+          category_id: ProductDetails.category_id,
+          currency_id: ProductDetails.currency.id,
+          name_en: ProductDetails.name2,
+          name_ar: ProductDetails.name,
+          description_en: ProductDetails.description2,
+          description_ar: ProductDetails.description,
+          price: ProductDetails.price,
+          images: [] as File[],
+          colors: [],
+        });
+      }
     }
-  }, [ProductDetails]); // Add ProductDetails as a dependency to re-run this effect when it changes
+  }, [ProductDetails]);
+  // Add ProductDetails as a dependency to re-run this effect when it changes
 
   useEffect(() => {
     const getToken = () => {
@@ -243,9 +258,8 @@ export default function UpdateProduct() {
       formDataToSend.append('description_en', formData.description_en);
       formDataToSend.append('description_ar', formData.description_ar);
       formDataToSend.append('price', formData.price);
-      formDataToSend.append('brand_id', formData.brand_id);
-      formDataToSend.append('storage_id', formData.storage_id);
-
+      formDataToSend.append('brand_id', formData.brand_id ?? '');
+      formDataToSend.append('storage_id', formData.storage_id ?? '');
       formData.images.forEach((image, index) => {
         formDataToSend.append(`images[${index}]`, image);
       });
@@ -299,7 +313,7 @@ export default function UpdateProduct() {
               <SelectedCurrency name={translations[language].currency} items={currencies} formData={formData} setFormData={setFormData} ProductDetails={ProductDetails} />
               <div>
                 <label htmlFor="productNamear" className="mb-3 block text-black dark:text-white">
-                {translations[language].nameinarabic}
+                  {translations[language].nameinarabic}
                 </label>
                 <input
                   type="text"
@@ -313,7 +327,7 @@ export default function UpdateProduct() {
               </div>
               <div>
                 <label htmlFor="productNameEn" className="mb-3 block text-black dark:text-white">
-                {translations[language].nameinenglish}
+                  {translations[language].nameinenglish}
                 </label>
                 <input
                   type="text"
@@ -327,7 +341,7 @@ export default function UpdateProduct() {
               </div>
               <div>
                 <label htmlFor="descriptionar" className="mb-3 block text-black dark:text-white">
-                {translations[language].descinarabic}
+                  {translations[language].descinarabic}
                 </label>
                 <input
                   type="text"
@@ -341,7 +355,7 @@ export default function UpdateProduct() {
               </div>
               <div>
                 <label htmlFor="descriptionen" className="mb-3 block text-black dark:text-white">
-                 {translations[language].descinenglish}
+                  {translations[language].descinenglish}
                 </label>
                 <input
                   type="text"
@@ -355,7 +369,7 @@ export default function UpdateProduct() {
               </div>
               <div>
                 <label htmlFor="productprice" className="mb-3 block text-black dark:text-white">
-                {translations[language].price}
+                  {translations[language].price}
                 </label>
                 <input
                   type="text"
@@ -367,21 +381,25 @@ export default function UpdateProduct() {
                   className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                 />
               </div>
-              <SelectBrand name={translations[language].brand} items={brands} formData={formData} setFormData={setFormData} ProductDetails={ProductDetails} />
-              <SelectStorage name={translations[language].storage} items={storages} formData={formData} setFormData={setFormData} ProductDetails={ProductDetails} />
+              {brands!= null && <SelectBrand name={translations[language].brand} items={brands} formData={formData} setFormData={setFormData} ProductDetails={ProductDetails} />}
+
+              {
+                storages != null && <SelectStorage name={translations[language].storage} items={storages} formData={formData} setFormData={setFormData} ProductDetails={ProductDetails} />
+              }
+
             </div>
           </div>
 
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
-              {translations[language].Photoupload}
+                {translations[language].Photoupload}
               </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
               <div>
                 <label className="mb-3 block text-black dark:text-white">
-                {translations[language].SelectPhotos}
+                  {translations[language].SelectPhotos}
                 </label>
                 <input
                   type="file"

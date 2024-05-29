@@ -1,56 +1,61 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Product } from '../../types/product';
 import ProductDetails from '../../pages/Product/ProductDetails';
 import axios from 'axios';
 import DeleteAlert from '../../pages/UiElements/DeleteAlert';
 import { Link } from 'react-router-dom';
+import { Tabs, Tab, Box } from '@mui/material';
 import { useLanguage } from '../../MultiLanguge/LanguageProvider ';
 import translations from './../../MultiLanguge/translations';
 
 interface TableTwoProps {
   responseData: Product[];
-  setdeletedItem:Boolean;
-  deletedItem:Boolean;
+  setDeletedItem: (value: boolean) => void;
+  deletedItem: boolean;
+  totalPages: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
 }
 
-const TableTwo: React.FC<TableTwoProps> = ({ responseData ,setdeletedItem ,deletedItem}) => {
+const TableTwo: React.FC<TableTwoProps> = ({ responseData, setDeletedItem, deletedItem, totalPages, currentPage, onPageChange }) => {
   const { language } = useLanguage();
-  const [selectedProductId, setselectedProductId] = useState(null);
-  const handleProductClick = (ProductId) => {
-    setselectedProductId(ProductId);
-  };
-  const handleDeleteCategory = async (ProductId) => {
-    try {
-      // Get the authorization token
-      const token = localStorage.getItem('token') || '';
+  const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
 
-      // Set up the headers
+  const handleProductClick = (productId: number) => {
+    setSelectedProductId(productId);
+  };
+
+  const handleDeleteCategory = async (productId: number) => {
+    try {
+      const token = localStorage.getItem('token') || '';
       const headers = {
         Accept: 'application/json',
         Authorization: `Bearer ${token}`,
       };
-
-      // Send DELETE request to delete the category with headers
-      const response = await axios.delete(`https://api.alorfi-store.com/superAdmin_api/delete_item?itemId=${ProductId}`, {
+      const response = await axios.delete(`https://api.alorfi-store.com/superAdmin_api/delete_item?itemId=${productId}`, {
         headers: headers
       });
-
-      // Check if deletion was successful
-      if (response.status === 200){
-        setdeletedItem(!deletedItem);
+      if (response.status === 200) {
+        setDeletedItem(!deletedItem);
         console.log('success');
       } else {
-        setdeletedItem(!deletedItem);
+        setDeletedItem(!deletedItem);
         console.error("Deletion failed");
       }
     } catch (error) {
       console.error("Error deleting category:", error);
     }
   };
+
+  const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    onPageChange(newValue + 1);
+  };
+
+  
+
   if (!responseData) {
     return null;
   }
-
 
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -60,25 +65,33 @@ const TableTwo: React.FC<TableTwoProps> = ({ responseData ,setdeletedItem ,delet
         </h4>
       </div>
 
+      <Box sx={{ width: '100%' }}>
+        <Tabs value={currentPage - 1} onChange={handleTabChange}>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <Tab key={i} label={`Page ${i + 1}`} />
+          ))}
+        </Tabs>
+      </Box>
+
       <div className="flex justify-between border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
+        <div className="col-span-2 flex items-center">
+          <p className="font-medium">id</p>
+        </div>
         <div className="col-span-2 flex items-center">
           <p className="font-medium">{translations[language].name}</p>
         </div>
         <div className="col-span-1 hidden items-center sm:flex">
           <p className="font-small">{translations[language].Category}</p>
         </div>
-
         <div className="col-span-1 flex items-center">
           <p className="font-medium">{translations[language].price}</p>
         </div>
-
         <div className="col-span-1 flex items-center">
           <p className="font-medium">{translations[language].currency}</p>
         </div>
         <div className="col-span-1 flex items-center">
           <p className="font-medium">{translations[language].isactive}</p>
         </div>
-
         <div className="col-span-1 flex items-center">
           <p className="font-medium">{translations[language].action}</p>
         </div>
@@ -89,29 +102,31 @@ const TableTwo: React.FC<TableTwoProps> = ({ responseData ,setdeletedItem ,delet
           className="flex justify-between border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
           key={key}
         >
-          <div className="col-span-1  items-center">
+          <div className="col-span-1 hidden items-center sm:flex">
+            <p className="text-sm text-black dark:text-white">
+              {product.id}
+            </p>
+          </div>
+          <div className="col-span-1 items-center">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
               <p className="text-sm text-black dark:text-white">
                 {product.name}
               </p>
             </div>
             <div className="h-12.5 w-15 rounded-md">
-              <img src={`https://api.alorfi-store.com/storage/${product.image}`} alt="Product" />
+              <img style={{ maxHeight: "100%", maxWidth: "100%" }} src={`https://api.alorfi-store.com/storage/${product.image}`} alt="Product" />
             </div>
-
           </div>
           <div className="col-span-1 hidden items-center sm:flex">
             <p className="text-sm text-black dark:text-white">
               {product.category_name}
             </p>
           </div>
-
           <div className="col-span-1 hidden items-center sm:flex">
             <p className="text-sm text-black dark:text-white">
               {product.price} {product.currency.symbol}
             </p>
           </div>
-
           <div className="col-span-1 hidden items-center sm:flex">
             <p className="text-sm text-black dark:text-white">
               {product.currency.name}
@@ -121,10 +136,7 @@ const TableTwo: React.FC<TableTwoProps> = ({ responseData ,setdeletedItem ,delet
             <p className={`text-sm ${product.is_active == 1 ? 'text-green-500' : 'text-red-500'} dark:text-white`}>
               {product.is_active == 1 ? 'Active' : 'Not Active'}
             </p>
-
           </div>
-
-
           <div className="flex gap-2 items-center justify-center p-2.5 xl:p-5">
             
             <button
@@ -200,18 +212,11 @@ const TableTwo: React.FC<TableTwoProps> = ({ responseData ,setdeletedItem ,delet
                   />
                 </svg>
               </Link>
-              </button>
+            </button>
           </div>
-
-
         </div>
       ))}
-      {deletedItem && <DeleteAlert deletedItem={deletedItem} />}
     </div>
-
-
-
-
   );
 };
 

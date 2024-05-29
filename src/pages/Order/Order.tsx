@@ -6,6 +6,18 @@ import { useLanguage } from '../../MultiLanguge/LanguageProvider ';
 import { Link } from 'react-router-dom';
 
 export default function Order() {
+    const getStatusClass = (status) => {
+        switch (status) {
+          case 'pending':
+            return 'bg-yellow-200';
+          case 'canceled':
+            return 'bg-red-200';
+          case 'accepted':
+            return 'bg-green-200';
+          default:
+            return '';
+        }
+      };
     const { language } = useLanguage();
     const [responseData, setResponseData] = useState(null);
     const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
@@ -60,7 +72,7 @@ export default function Order() {
                 // يتم معالجة الخطأ هنا
                 console.error('Error fetching products:', error);
             });
-    }, [ischangeStatus,language]);
+    }, [ischangeStatus, language]);
 
 
 
@@ -76,6 +88,15 @@ export default function Order() {
                         <table className="w-full table-auto">
                             <thead>
                                 <tr className="bg-gray-2 text-left dark:bg-meta-4">
+                                    <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
+                                        id
+                                    </th>
+                                    <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
+                                        name
+                                    </th>
+                                    <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
+                                        email
+                                    </th>
                                     <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
                                         order price
                                     </th>
@@ -114,6 +135,21 @@ export default function Order() {
                             <tbody>
                                 {responseData.map((packageItem, key) => (
                                     <tr key={key}>
+                                        <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
+                                            <h5 className="font-medium text-black dark:text-white">
+                                                {packageItem.id}
+                                            </h5>
+                                        </td>
+                                        <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
+                                            <h5 className="font-medium text-black dark:text-white">
+                                                {packageItem.customer_name}
+                                            </h5>
+                                        </td>
+                                        <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
+                                            <h5 className="font-medium text-black dark:text-white">
+                                                {packageItem.customer_email}
+                                            </h5>
+                                        </td>
                                         <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                                             <h5 className="font-medium text-black dark:text-white">
                                                 {packageItem.order_price}  {packageItem.currency.symbol}
@@ -170,8 +206,8 @@ export default function Order() {
                                             <select
                                                 value={packageItem.status}
                                                 onChange={(e) => changeOrderStatus(packageItem.id, e.target.value)}
-                                                className="inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium"
-                                            >
+                                                className={`inline-flex rounded-full py-1 px-3 text-sm font-medium ${getStatusClass(packageItem.status)}`}
+                                                >
                                                 <option value="pending">Pending</option>
                                                 <option value="canceled">Canceled</option>
                                                 <option value="accepted">accepted</option>
@@ -186,11 +222,11 @@ export default function Order() {
                                             </p>
                                         </td>
                                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <Link to={`/showorder/${packageItem.id}`}
+                                            <Link to={`/showorder/${packageItem.id}`}
                                                 className="inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium "
-                                        >
-                                          show
-                                        </Link>
+                                            >
+                                                show
+                                            </Link>
 
                                         </td>
 

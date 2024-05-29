@@ -4,44 +4,67 @@ import TableTwo from './../../components/Tables/TableTwo';
 import axios from 'axios';
 import { useLanguage } from '../../MultiLanguge/LanguageProvider ';
 
+
 export default function ViewProduct() {
-  const [responseData, setResponseData] = useState(null);
   const { language } = useLanguage();
-  const [deletedItem,setdeletedItem]=useState(false);
+  const [responseData, setResponseData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [deletedItem, setDeletedItem] = useState(false);
+  const [currency, setcurrency] = useState('');
+
+
   useEffect(() => {
-    // دالة لجلب التوكين من localStorage
     const getToken = () => {
       return localStorage.getItem('token');
     };
 
-    // الهيدر الذي يجب إرساله مع الطلب
     const headers = {
       Accept: 'application/json',
       language: language,
       currency: 'Dinar',
-      Authorization: `Bearer ${getToken()}`, // إضافة التوكين إلى الهيدر
+      Authorization: `Bearer ${getToken()}`,
     };
 
-    // الرابط الذي سنرسل إليه الطلب لجلب المنتجات
-    const apiUrl = 'https://api.alorfi-store.com/superAdmin_api/show_items';
-
-    // إرسال طلب GET لجلب المنتجات باستخدام التوكين
-    axios.get(apiUrl, { headers })
-      .then(response => {
-        // يتم معالجة الاستجابة هنا
-        console.log(response.data);
-        setResponseData(response.data.data);
-
-      })
-      .catch(error => {
-        // يتم معالجة الخطأ هنا
+    const fetchProducts = async (page) => {
+      const apiUrl = `https://api.alorfi-store.com/superAdmin_api/show_items?page=${page}`;
+      try {
+        const response = await axios.get(apiUrl, { headers });
+        const data = response.data;
+        if (data.success) {
+          
+          setResponseData(prev => {
+            const updated = [...prev];
+            updated[page - 1] = data.data;
+            return updated;
+          });
+          setTotalPages(data.last_page);
+        
+        }
+      } catch (error) {
         console.error('Error fetching products:', error);
-      });
-  }, [deletedItem]); // تم تحديد اعتماديات فارغة لتنفيذ الطلب مرة واحدة عند تحميل المكون
+      }
+    };
+
+    for (let i = 1; i <= totalPages || i === 1; i++) {
+      fetchProducts(i);
+    }
+  }, [deletedItem, totalPages]);
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
 
   return (
     <DefaultLayout>
-        <TableTwo   responseData={responseData} deletedItem={deletedItem} setdeletedItem={setdeletedItem}/>
+      <TableTwo
+        responseData={responseData[currentPage - 1] || []}
+        deletedItem={deletedItem}
+        setDeletedItem={setDeletedItem}
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
     </DefaultLayout>
-  )
+  );
 }

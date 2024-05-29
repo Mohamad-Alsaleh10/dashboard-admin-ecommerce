@@ -52,33 +52,34 @@ const OrderDetails = () => {
 
     return (
         <DefaultLayout>
-  {
-    orderDetails.map((orderDetails,key)=>{
-         return(
-            <div id={key} className='mb-4 p-10' style={{background:"#80808030" , borderRadius:"20px"}} >
-                <h2 className='mb-6 text-xl font-semibold text-black dark:text-white'>item name : {orderDetails.item_name} </h2>
-                <h2 className='mb-6 text-xl font-semibold text-black dark:text-white'>quantity : {orderDetails.quantity} </h2>
-                <h2 className='mb-6 text-xl font-semibold text-black dark:text-white'>total price : {orderDetails.total_price} </h2>
+            {
+                orderDetails.map((orderDetails, key) => {
+                    return (
+                        <div id={key} className='mb-4 p-10' style={{ background: "#80808030", borderRadius: "20px" }} >
+                            <h2 className='mb-6 text-xl font-semibold text-black dark:text-white'>id : {orderDetails.id} </h2>
+                            <h2 className='mb-6 text-xl font-semibold text-black dark:text-white'>item name : {orderDetails.item_name} </h2>
+                            <h2 className='mb-6 text-xl font-semibold text-black dark:text-white'>quantity : {orderDetails.quantity} </h2>
+                            <h2 className='mb-6 text-xl font-semibold text-black dark:text-white'>total price : {orderDetails.total_price} </h2>
 
-                <div style={{ marginBottom: "20px" }}>
-                    <h2 className='mb-6 text-xl font-semibold text-black dark:text-white'>colors : </h2>
-                    <div style={{ display: "flex", gap: "4px" }}>
+                            <div style={{ marginBottom: "20px" }}>
+                                <h2 className='mb-6 text-xl font-semibold text-black dark:text-white'>colors : </h2>
+                                <div style={{ display: "flex", gap: "4px" }}>
 
-                        <div style={{ background: orderDetails.color, width: "60px", height: "60px" }}></div>
+                                    <div style={{ background: orderDetails.color, width: "60px", height: "60px" }}></div>
 
-                    </div>
-                </div>
-                <div>
-                    <h2 className='mb-6 text-xl font-semibold text-black dark:text-white' >images : </h2>
-                    <div style={{ width: "40%" }} >
-                        <img src={`https://api.alorfi-store.com/storage/${orderDetails.item_image.url}`} />
-                    </div>
-                </div>
-                {/* Display other category details as needed */}
-            </div>
-         )
-    })
-  }
+                                </div>
+                            </div>
+                            <div>
+                                <h2 className='mb-6 text-xl font-semibold text-black dark:text-white' >images : </h2>
+                                <div style={{ width: "40%" }} >
+                                    <img src={`https://api.alorfi-store.com/storage/${orderDetails.item_image.url}`} />
+                                </div>
+                            </div>
+                            {/* Display other category details as needed */}
+                        </div>
+                    )
+                })
+            }
 
         </DefaultLayout>
     );
