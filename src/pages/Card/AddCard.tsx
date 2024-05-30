@@ -177,12 +177,12 @@ export default function AddCard() {
               <SelectGroupTwo name="category" items={categories} formData={formData} setFormData={setFormData} />
               <SelectedCurrency name="currency" items={currencies} formData={formData} setFormData={setFormData} />
               <div>
-                <label htmlFor="productNameEn" className="mb-3 block text-black dark:text-white">
+                <label htmlFor="productNamear" className="mb-3 block text-black dark:text-white">
                   Product Name in Arabic:
                 </label>
                 <input
                   type="text"
-                  id="productNameEn"
+                  id="productNamear"
                   name="name_ar"
                   value={formData.name_ar}
                   onChange={handleInputChange}

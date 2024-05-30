@@ -10,7 +10,7 @@ export default function AddCardCategory() {
     const [formData, setFormData] = useState({
         name_ar: '',
         name_en: '',
-        images: [] as File[],
+        image: '',
     });
     const [responseStatus, setResponseStatus] = useState<string | null>(null);
 
@@ -20,10 +20,8 @@ export default function AddCardCategory() {
             const formDataToSend = new FormData();
             formDataToSend.append('name_ar', formData.name_ar);
             formDataToSend.append('name_en', formData.name_en);
-            formData.images.forEach((image, index) => {
-                formDataToSend.append(`images[${index}]`, image);
-            });
-
+            formDataToSend.append('image', formData.image); // Ensure formData.image is a File object
+            
             const response = await axios.post(
                 'https://api.alorfi-store.com/superAdmin_api/add_card_category',
                 formDataToSend,
@@ -33,7 +31,8 @@ export default function AddCardCategory() {
             setResponseStatus(response.data);
         } catch (error) {
             console.error('Error:', error);
-         
+            // Optionally, set an error state to display in the UI
+            setResponseStatus({ status: 'error', message: error.message });
         }
     };
 
@@ -59,10 +58,10 @@ export default function AddCardCategory() {
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
         if (files) {
-            const selectedImages = Array.from(files);
+            const selectedImage = files[0]; // Assuming single file upload
             setFormData({
-                ...formData,
-                images: selectedImages,
+               ...formData,
+                image: selectedImage, // Now it's a single File object
             });
         }
     };
@@ -124,7 +123,7 @@ export default function AddCardCategory() {
                                     type="file"
                                     onChange={handleFileChange}
                                     className="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:py-3 file:px-5 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary"
-                                    multiple
+                                
                                 />
                             </div>
                         </div>
