@@ -1,13 +1,10 @@
-
 import { useEffect, useState } from "react";
-import SelectGroupTwo from "../../components/Forms/SelectGroup/SelectGroupTwo";
 import DefaultLayout from "../../layout/DefaultLayout";
 import axios from 'axios';
-import ColorPicker from "../../components/ColorPicker";
 import SelectedCurrency from "../../components/Forms/SelectGroup/SelectedCurrency";
 import Alerts from "../UiElements/Alerts";
-import SelectBrand from "../../components/Forms/SelectGroup/SelectBrand";
-import SelectStorage from "../../components/Forms/SelectGroup/SelectStorage";
+import SelectCardAdd from "../../components/Forms/SelectGroup/SelectCardAdd";
+
 interface Category {
   id: number;
   name: string;
@@ -21,18 +18,7 @@ interface Currency {
   symbol: string;
   price: string;
 }
-interface Color {
-  id: number;
-  name: string;
-}
-interface Brand {
-  id: number;
-  name: string;
-}
-interface Storage {
-  id: number;
-  size: string;
-}
+
 export default function AddCard() {
   const currencies: Currency[] = [
     {
@@ -50,13 +36,11 @@ export default function AddCard() {
   ];
 
   const [categories, setCategories] = useState<Category[]>([]);
-  const [brands, setBrands] = useState<Brand[]>([]);
-  const [storages, setStorages] = useState<Storage[]>([]);
 
   const [responseStatus, setResponseStatus] = useState<string | null>(null);
   const [formData, setFormData] = useState({
-    type:"",
-    card_category_id: "",
+    type: "",
+    card_sub_id: "",
     name_ar: "",
     name_en: "",
     description_ar: "",
@@ -64,44 +48,35 @@ export default function AddCard() {
     image: "",
     price: "",
     currency_id: "",
-    quantity:"",
-    codes: [],
-    quantities: [],
-
+    quantity: "",
+    codes: [""],
   });
+
   useEffect(() => {
-    // دالة لجلب التوكين من localStorage
+    // Fetch token from localStorage
     const getToken = () => {
       return localStorage.getItem('token');
     };
 
-    // الهيدر الذي يجب إرساله مع الطلب
     const headers = {
       Accept: 'application/json',
       language: 'en',
-      perPage:'100',
-      Authorization: `Bearer ${getToken()}`, // إضافة التوكين إلى الهيدر
+      Authorization: `Bearer ${getToken()}`, // Add token to headers
     };
 
-    // الرابط الذي سنرسل إليه الطلب لجلب المنتجات
-    const apiUrl = 'https://api.alorfi-store.com/superAdmin_api/show_card_categories';
+    const apiUrl = 'https://api.alorfi-store.com/superAdmin_api/show_card_sub_categories';
 
-    // إرسال طلب GET لجلب المنتجات باستخدام التوكين
+    // Fetch categories
     axios.get(apiUrl, { headers })
       .then(response => {
-        // يتم معالجة الاستجابة هنا
-        console.log(response.data.data);
         setCategories(response.data.data);
-
       })
       .catch(error => {
-        // يتم معالجة الخطأ هنا
         console.error('Error fetching products:', error);
       });
   }, []);
 
-
-  // handle submit 
+  // Handle form submit
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -111,35 +86,31 @@ export default function AddCard() {
         Accept: 'application/json',
         Authorization: `Bearer ${token}`,
       };
-      const apiUrl = 'https://api.alorfi-store.com/superAdmin_api/add_item';
+      const apiUrl = 'https://api.alorfi-store.com/superAdmin_api/add_card';
       console.log(formData);
+
       // Prepare FormData
       const formDataToSend = new FormData();
-      formDataToSend.append('category_id', formData.category_id);
-      formDataToSend.append('currency_id', formData.currency_id);
-      formDataToSend.append('name_en', formData.name_en);
+      formDataToSend.append('type', formData.type);
+      formDataToSend.append('card_sub_id', formData.card_sub_id);
       formDataToSend.append('name_ar', formData.name_ar);
+      formDataToSend.append('name_en', formData.name_en);
+      formDataToSend.append('description_ar', formData.description_ar);
       formDataToSend.append('description_en', formData.description_en);
-      formDataToSend.append('description_ar', formData.description_en);
+      formDataToSend.append('image', formData.image);
       formDataToSend.append('price', formData.price);
-      formDataToSend.append('brand_id', formData.brand_id);
-      formDataToSend.append('storage_id', formData.storage_id);
-
-      formData.images.forEach((image, index) => {
-        formDataToSend.append(`images[${index}]`, image);
-      });
-      formData.colors.forEach((colorId, index) => {
-        formDataToSend.append(`colors[${index}]`, colorId);
+      formDataToSend.append('currency_id', formData.currency_id);
+      formDataToSend.append('quantity', String(formData.quantity));
+      formData.codes.forEach((code, index) => {
+        formDataToSend.append(`codes[${index}]`, code);
       });
 
       console.log(formDataToSend);
       const response = await axios.post(apiUrl, formDataToSend, { headers });
       console.log('Response:', response.data);
       setResponseStatus(response.data);
-      // Handle success, redirect, or show a success message
     } catch (error) {
       console.error('Error adding product:', error);
-      // Handle error, show an error message, etc.
     }
   };
 
@@ -151,6 +122,29 @@ export default function AddCard() {
     });
   };
 
+  const handleCodeChange = (index: number, value: string) => {
+    const newCodes = [...formData.codes];
+    newCodes[index] = value;
+    setFormData({
+      ...formData,
+      codes: newCodes,
+    });
+  };
+
+  const addCodeField = () => {
+    setFormData({
+      ...formData,
+      codes: [...formData.codes, ""],
+    });
+  };
+
+  const removeCodeField = (index: number) => {
+    const newCodes = formData.codes.filter((_, i) => i !== index);
+    setFormData({
+      ...formData,
+      codes: newCodes,
+    });
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -158,31 +152,44 @@ export default function AddCard() {
       const selectedImages = Array.from(files);
       setFormData({
         ...formData,
-        images: selectedImages,
+        image: selectedImages[0],
       });
     }
   };
+
   return (
     <DefaultLayout>
-
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-9">
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
-                Add Products
+                Add Cards
               </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
-              <SelectGroupTwo name="category" items={categories} formData={formData} setFormData={setFormData} />
-              <SelectedCurrency name="currency" items={currencies} formData={formData} setFormData={setFormData} />
               <div>
-                <label htmlFor="productNamear" className="mb-3 block text-black dark:text-white">
-                  Product Name in Arabic:
+                <label htmlFor="cardtype" className="mb-3 block text-black dark:text-white">
+                  Card Type:
                 </label>
                 <input
                   type="text"
-                  id="productNamear"
+                  id="cardtype"
+                  name="type"
+                  value={formData.type}
+                  onChange={handleInputChange}
+                  placeholder="Default Input"
+                  className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                />
+              </div>
+              <SelectCardAdd name="category" items={categories} formData={formData} setFormData={setFormData} />
+              <div>
+                <label htmlFor="cardNameAr" className="mb-3 block text-black dark:text-white">
+                  Card Name in Arabic:
+                </label>
+                <input
+                  type="text"
+                  id="cardNameAr"
                   name="name_ar"
                   value={formData.name_ar}
                   onChange={handleInputChange}
@@ -191,12 +198,12 @@ export default function AddCard() {
                 />
               </div>
               <div>
-                <label htmlFor="productNameEn" className="mb-3 block text-black dark:text-white">
-                  Product Name in English:
+                <label htmlFor="cardNameEn" className="mb-3 block text-black dark:text-white">
+                  Card Name in English:
                 </label>
                 <input
                   type="text"
-                  id="productNameEn"
+                  id="cardNameEn"
                   name="name_en"
                   value={formData.name_en}
                   onChange={handleInputChange}
@@ -205,12 +212,12 @@ export default function AddCard() {
                 />
               </div>
               <div>
-                <label htmlFor="productNameEn" className="mb-3 block text-black dark:text-white">
-                  Product Name in Arabic:
+                <label htmlFor="CardDescAr" className="mb-3 block text-black dark:text-white">
+                  Card Description in Arabic:
                 </label>
                 <input
                   type="text"
-                  id="productNameEn"
+                  id="CardDescAr"
                   name="description_ar"
                   value={formData.description_ar}
                   onChange={handleInputChange}
@@ -219,12 +226,12 @@ export default function AddCard() {
                 />
               </div>
               <div>
-                <label htmlFor="productNameEn" className="mb-3 block text-black dark:text-white">
-                  Product Name in English:
+                <label htmlFor="CardDescEn" className="mb-3 block text-black dark:text-white">
+                  Card Description in English:
                 </label>
                 <input
                   type="text"
-                  id="productNameEn"
+                  id="CardDescEn"
                   name="description_en"
                   value={formData.description_en}
                   onChange={handleInputChange}
@@ -233,12 +240,24 @@ export default function AddCard() {
                 />
               </div>
               <div>
-                <label htmlFor="productNameEn" className="mb-3 block text-black dark:text-white">
-                  Price:
+                <label htmlFor="Cardimage" className="mb-3 block text-black dark:text-white">
+                  Card Image:
+                </label>
+                <input
+                  type="file"
+                  id="Cardimage"
+                  name="image"
+                  onChange={handleFileChange}
+                  className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                />
+              </div>
+              <div>
+                <label htmlFor="cardPrice" className="mb-3 block text-black dark:text-white">
+                  Card Price:
                 </label>
                 <input
                   type="text"
-                  id="productNameEn"
+                  id="cardPrice"
                   name="price"
                   value={formData.price}
                   onChange={handleInputChange}
@@ -246,38 +265,61 @@ export default function AddCard() {
                   className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                 />
               </div>
-              <SelectBrand name="brand" items={brands} formData={formData} setFormData={setFormData} />
-              <SelectStorage name="Storage" items={storages} formData={formData} setFormData={setFormData} />
-            </div>
-          </div>
-
-          <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-            <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
-              <h3 className="font-medium text-black dark:text-white">
-                Photo upload
-              </h3>
-            </div>
-            <div className="flex flex-col gap-5.5 p-6.5">
+              <SelectedCurrency name="currency" items={currencies} formData={formData} setFormData={setFormData} />
               <div>
-                <label className="mb-3 block text-black dark:text-white">
-                  First Photo
+                <label htmlFor="quantity" className="mb-3 block text-black dark:text-white">
+                  Quantity:
                 </label>
                 <input
-                  type="file"
-                  onChange={handleFileChange}
-                  className="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:py-3 file:px-5 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary"
+                  type="number"
+                  id="quantity"
+                  name="quantity"
+                  value={formData.quantity}
+                  onChange={handleInputChange}
+                  placeholder="Default Input"
+                  className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                 />
               </div>
+              <div>
+                <label htmlFor="codes" className="mb-3 block text-black dark:text-white">
+                  Card Codes:
+                </label>
+                {formData.codes.map((code, index) => (
+                  <div key={index} className="flex items-center mb-2">
+                    <input
+                      type="text"
+                      id={`code-${index}`}
+                      name={`codes[${index}]`}
+                      value={code}
+                      onChange={(e) => handleCodeChange(index, e.target.value)}
+                      placeholder="Enter code"
+                      className="flex-grow rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary mb-2"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeCodeField(index)}
+                      className="ml-2 px-4 py-2 bg-red-500 text-white rounded"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+                <button type="button" onClick={addCodeField} className="mt-2 px-4 py-2 bg-blue-500 text-white rounded">
+                  Add Another Code
+                </button>
+              </div>
+              <button
+                type="submit"
+                className="inline-flex items-center justify-center rounded-md bg-primary py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
+              >
+                Add Card
+              </button>
             </div>
           </div>
-
-          <ColorPicker formData={formData} setFormData={setFormData} />
-
-          <button type="submit" className="inline-flex items-center justify-center rounded-md bg-black py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10">Add</button>
         </div>
-        {responseStatus && <Alerts responseStatus={responseStatus} />}
       </form>
+      {responseStatus && <Alerts responseStatus={responseStatus} />}
 
     </DefaultLayout>
-  )
+  );
 }

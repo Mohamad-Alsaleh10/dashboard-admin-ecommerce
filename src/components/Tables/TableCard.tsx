@@ -9,9 +9,11 @@ interface TableProps {
   responseData: Card[];
 }
 
-const TableCard: React.FC<TableProps> =({ responseData }) => {
-  const [deletedItem, setdeletedItem] = useState(false);
+const TableCard: React.FC<TableProps> = ({ responseData, deletedItem, setdeletedItem ,isactive , setIsActive}) => {
   const [selectedProductId, setselectedProductId] = useState(null);
+  const getToken = () => {
+    return localStorage.getItem('token');
+ };
   const handleProductClick = (ProductId) => {
     setselectedProductId(ProductId);
   };
@@ -27,15 +29,14 @@ const TableCard: React.FC<TableProps> =({ responseData }) => {
       };
 
       // Send DELETE request to delete the category with headers
-      const response = await axios.delete(`https://api.alorfi-store.com/superAdmin_api/delete_item?itemId=${ProductId}`, {
+      const response = await axios.delete(`https://api.alorfi-store.com/superAdmin_api/delete_card?cardId=${ProductId}`, {
         headers: headers
       });
 
       // Check if deletion was successful
-      if (response.status === 200){
-        setdeletedItem(true);
+      if (response.status === 200) {
+        setdeletedItem(!deletedItem);
         console.log('success');
-        window.location.reload();
       } else {
         setdeletedItem(false);
         console.error("Deletion failed");
@@ -44,6 +45,34 @@ const TableCard: React.FC<TableProps> =({ responseData }) => {
       console.error("Error deleting category:", error);
     }
   };
+  const handleClick = (categoryId) => {
+    // Construct the URL
+    const apiUrl = `https://api.alorfi-store.com/superAdmin_api/active_or_not_card?cardId=${categoryId}`;
+   
+    // Set up the headers
+    const headers = {
+       Accept: 'application/json',
+       Authorization: `Bearer ${getToken()}`, // Add the token to the headers
+    };
+   
+    // Set up the request body
+    const requestBody = {
+      cardCategoryId: categoryId,
+       // Add any other required fields here
+    };
+   
+    // Make the API request
+    axios.post(apiUrl, requestBody, { headers })
+       .then(response => {
+         // Handle the response here
+         console.log(response.data);
+         setIsActive(1+isactive);
+       })
+       .catch(error => {
+         // Handle the error here
+         console.error('Error fetching data:', error);
+       });
+   };
   if (!responseData) {
     return null;
   }
@@ -124,38 +153,50 @@ const TableCard: React.FC<TableProps> =({ responseData }) => {
             </p>
           </div>
           <div className="col-span-1 hidden items-center sm:flex">
-            <p className={`text-sm ${product.is_active == 1 ? 'text-green-500' : 'text-red-500'} dark:text-white`}>
-              {product.is_active == 1 ? 'Active' : 'Not Active'}
-            </p>
+            <button
+                    onClick={() => handleClick(product.id)}
+                    className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${product.is_active === '1'
+                        ? 'bg-success text-success'
+                        : product.is_active === '0'
+                          ? 'bg-danger text-danger'
+                          : 'bg-warning text-warning'
+                      }`}
+                 >
+                    {product.is_active === '1' ? "active" : "not active"}
+                 </button>
 
           </div>
 
 
           <div className="flex gap-2 items-center justify-center p-2.5 xl:p-5">
             <button
-            onClick={() => handleProductClick(product.id)}
-             className="hover:text-primary ">
-              <svg
-                className="fill-current"
-                width="18"
-                height="18"
-                viewBox="0 0 18 18"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M8.99981 14.8219C3.43106 14.8219 0.674805 9.50624 0.562305 9.28124C0.47793 9.11249 0.47793 8.88749 0.562305 8.71874C0.674805 8.49374 3.43106 3.20624 8.99981 3.20624C14.5686 3.20624 17.3248 8.49374 17.4373 8.71874C17.5217 8.88749 17.5217 9.11249 17.4373 9.28124C17.3248 9.50624 14.5686 14.8219 8.99981 14.8219ZM1.85605 8.99999C2.4748 10.0406 4.89356 13.5562 8.99981 13.5562C13.1061 13.5562 15.5248 10.0406 16.1436 8.99999C15.5248 7.95936 13.1061 4.44374 8.99981 4.44374C4.89356 4.44374 2.4748 7.95936 1.85605 8.99999Z"
-                  fill=""
-                />
-                <path
-                  d="M9 11.3906C7.67812 11.3906 6.60938 10.3219 6.60938 9C6.60938 7.67813 7.67812 6.60938 9 6.60938C10.3219 6.60938 11.3906 7.67813 11.3906 9C11.3906 10.3219 10.3219 11.3906 9 11.3906ZM9 7.875C8.38125 7.875 7.875 8.38125 7.875 9C7.875 9.61875 8.38125 10.125 9 10.125C9.61875 10.125 10.125 9.61875 10.125 9C10.125 8.38125 9.61875 7.875 9 7.875Z"
-                  fill=""
-                />
-              </svg>
+              className="hover:text-primary ">
+
+
+              <Link to={`/showcard/${product.id}`}>
+                <svg
+                  className="fill-current"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8.99981 14.8219C3.43106 14.8219 0.674805 9.50624 0.562305 9.28124C0.47793 9.11249 0.47793 8.88749 0.562305 8.71874C0.674805 8.49374 3.43106 3.20624 8.99981 3.20624C14.5686 3.20624 17.3248 8.49374 17.4373 8.71874C17.5217 8.88749 17.5217 9.11249 17.4373 9.28124C17.3248 9.50624 14.5686 14.8219 8.99981 14.8219ZM1.85605 8.99999C2.4748 10.0406 4.89356 13.5562 8.99981 13.5562C13.1061 13.5562 15.5248 10.0406 16.1436 8.99999C15.5248 7.95936 13.1061 4.44374 8.99981 4.44374C4.89356 4.44374 2.4748 7.95936 1.85605 8.99999Z"
+                    fill=""
+                  />
+                  <path
+                    d="M9 11.3906C7.67812 11.3906 6.60938 10.3219 6.60938 9C6.60938 7.67813 7.67812 6.60938 9 6.60938C10.3219 6.60938 11.3906 7.67813 11.3906 9C11.3906 10.3219 10.3219 11.3906 9 11.3906ZM9 7.875C8.38125 7.875 7.875 8.38125 7.875 9C7.875 9.61875 8.38125 10.125 9 10.125C9.61875 10.125 10.125 9.61875 10.125 9C10.125 8.38125 9.61875 7.875 9 7.875Z"
+                    fill=""
+                  />
+                </svg>
+              </Link>
+
             </button>
-            <button 
-            onClick={() => handleDeleteCategory(product.id)}
-            className="hover:text-primary "
+            <button
+              onClick={() => handleDeleteCategory(product.id)}
+              className="hover:text-primary "
             >
               <svg
                 className="fill-current"
@@ -184,7 +225,7 @@ const TableCard: React.FC<TableProps> =({ responseData }) => {
               </svg>
             </button>
             <button className="hover:text-primary ">
-              <Link to={`/updateproducts/${product.id}`}>
+              <Link to={`/updatecard/${product.id}`}>
                 <svg
                   className="fill-current"
                   width="18"
@@ -203,7 +244,7 @@ const TableCard: React.FC<TableProps> =({ responseData }) => {
                   />
                 </svg>
               </Link>
-              </button>
+            </button>
           </div>
 
 
@@ -211,10 +252,6 @@ const TableCard: React.FC<TableProps> =({ responseData }) => {
       ))}
       {deletedItem && <DeleteAlert deletedItem={deletedItem} />}
     </div>
-
-
-
-
   );
 };
 

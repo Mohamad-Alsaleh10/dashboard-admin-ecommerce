@@ -6,7 +6,8 @@ import TableCard from '../../components/Tables/TableCard';
 
 export default function Card() {
   const [responseData, setResponseData] = useState(null);
-
+  const [deletedItem, setdeletedItem] = useState(false);
+  const [isactive ,setIsActive] = useState('');
   useEffect(() => {
     // دالة لجلب التوكين من localStorage
     const getToken = () => {
@@ -17,7 +18,7 @@ export default function Card() {
     const headers = {
       Accept: 'application/json',
       language: 'en',
-      perPage:'10',
+      perPage:'100',
       currency: 'Dinar',
       Authorization: `Bearer ${getToken()}`, // إضافة التوكين إلى الهيدر
     };
@@ -37,11 +38,11 @@ export default function Card() {
         // يتم معالجة الخطأ هنا
         console.error('Error fetching products:', error);
       });
-  }, []); // تم تحديد اعتماديات فارغة لتنفيذ الطلب مرة واحدة عند تحميل المكون
+  }, [deletedItem , isactive]); // تم تحديد اعتماديات فارغة لتنفيذ الطلب مرة واحدة عند تحميل المكون
 
   return (
     <DefaultLayout>
-        <TableCard   responseData={responseData}/>
+        <TableCard isactive={isactive} setIsActive={setIsActive} deletedItem={deletedItem} setdeletedItem={setdeletedItem}  responseData={responseData}/>
     </DefaultLayout>
   )
 }

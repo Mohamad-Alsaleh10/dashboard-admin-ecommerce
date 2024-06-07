@@ -62,6 +62,9 @@ import CategoryDetails from './pages/Category/CategoryDetails';
 import OrderDetails from './pages/Order/OrderDetails';
 import Offer from './pages/offer/Offer';
 import AddOffer from './pages/offer/AddOffer';
+import ShowOneCard from './pages/Card/ShowOneCard';
+import UpdateCard from './pages/Card/UpdateCard';
+import CardOrder from './pages/CardOrder/CardOrder';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -183,6 +186,15 @@ function App() {
             }
           />
           <Route
+            path="/showcard/:cardId"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="showcard " />
+                <ShowOneCard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/updatecardcategory/:cardCategoryId"
             element={
               <ProtectedRoute>
@@ -210,11 +222,38 @@ function App() {
             }
           />
           <Route
+            path="/addcardproducts"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="UpdateProduct " />
+                <UpdateProduct />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/updatecard/:cardId"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="updatecard " />
+                <UpdateCard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/colors"
             element={
               <ProtectedRoute>
                 <PageTitle title="colors " />
                 <ViewColors />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/cardorder"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="cardorder " />
+                <CardOrder />
               </ProtectedRoute>
             }
           />
@@ -474,12 +513,12 @@ function App() {
               </ProtectedRoute>
             }
           />
-                    <Route
+          <Route
             path="/showorder/:orderId"
             element={
               <ProtectedRoute>
                 <PageTitle title="showorder" />
-                <OrderDetails/>
+                <OrderDetails />
               </ProtectedRoute>
             }
           />
