@@ -65,6 +65,10 @@ import AddOffer from './pages/offer/AddOffer';
 import ShowOneCard from './pages/Card/ShowOneCard';
 import UpdateCard from './pages/Card/UpdateCard';
 import CardOrder from './pages/CardOrder/CardOrder';
+import ShowSubCat from './pages/CardSubCategory/ShowSubCat';
+import AddSubCat from './pages/CardSubCategory/AddSubCat';
+import ShowOneSubCat from './pages/CardSubCategory/ShowOneSubCat';
+import UpdateSubCat from './pages/CardSubCategory/UpdateSubCat';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -254,6 +258,24 @@ function App() {
               <ProtectedRoute>
                 <PageTitle title="cardorder " />
                 <CardOrder />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/cardsubcategory"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="cardsubcategory " />
+                <ShowSubCat />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/addcardsubcategory"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="addcardsubcategory " />
+                <AddSubCat />
               </ProtectedRoute>
             }
           />
@@ -519,6 +541,24 @@ function App() {
               <ProtectedRoute>
                 <PageTitle title="showorder" />
                 <OrderDetails />
+              </ProtectedRoute>
+            }
+          />
+                    <Route
+            path="/showsubcardcategory/:cardSubId"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="showsubcardcategory" />
+                <ShowOneSubCat />
+              </ProtectedRoute>
+            }
+          />
+                              <Route
+            path="/updatesubcardcategory/:cardSubId"
+            element={
+              <ProtectedRoute>
+                <PageTitle title="updatesubcardcategory" />
+                <UpdateSubCat/>
               </ProtectedRoute>
             }
           />
