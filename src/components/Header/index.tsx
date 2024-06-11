@@ -7,6 +7,7 @@ import DarkModeSwitcher from './DarkModeSwitcher';
 import SwitcherOne from '../Switchers/SwitcherOne';
 import { useLanguage } from '../../MultiLanguge/LanguageProvider ';
 import translations from './../../MultiLanguge/translations';
+import SearchItems from '../Forms/Search/SearchItems';
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;
@@ -72,6 +73,10 @@ const Header = (props: {
            <SwitcherOne/>
             {/* <!-- Dark Mode Toggler --> */}
             <DarkModeSwitcher />
+              
+
+              <SearchItems/>
+
             {/* <!-- Dark Mode Toggler --> */}
 
             {/* <!-- Notification Menu Area --> */}

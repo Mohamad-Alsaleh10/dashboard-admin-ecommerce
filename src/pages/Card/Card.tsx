@@ -18,7 +18,7 @@ export default function Card() {
     const headers = {
       Accept: 'application/json',
       language: 'en',
-      perPage:'100',
+      perPage:'10000',
       currency: 'Dinar',
       Authorization: `Bearer ${getToken()}`, // إضافة التوكين إلى الهيدر
     };

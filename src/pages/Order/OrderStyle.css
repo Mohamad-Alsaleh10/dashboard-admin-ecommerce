@@ -1,0 +1,49 @@
+.order-details-container {
+    padding: 20px;
+}
+
+.print-button {
+    margin-bottom: 20px;
+    background-color: blue;
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+}
+
+.order-card {
+    background: #f5f5f5;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.order-card h2 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #333;
+}
+
+.color-section {
+    margin-bottom: 20px;
+}
+
+.color-box {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #ccc;
+}
+
+.image-section {
+    margin-bottom: 20px;
+}
+
+.item-image {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.order-images{
+    width: 10%;
+}

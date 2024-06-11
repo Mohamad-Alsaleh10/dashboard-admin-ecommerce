@@ -124,7 +124,7 @@ export default function UpdateSubCat() {
       }
 
       const response = await axios.post(apiUrl, formDataToSend, { headers });
-      setResponseStatus(response.data.message);
+      setResponseStatus(response.data);
       setAddedsuccessfully(!addedsuccessfully);
       console.log(responseStatus) ;// Assuming `message` contains the response status
     } catch (error) {

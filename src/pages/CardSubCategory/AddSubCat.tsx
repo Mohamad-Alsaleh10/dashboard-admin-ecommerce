@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import DefaultLayout from "../../layout/DefaultLayout";
 import axios from 'axios';
 import Alerts from "../UiElements/Alerts";
-import SelectCardAdd from "../../components/Forms/SelectGroup/SelectCardAdd";
 import SelectCardAddSub from "../../components/Forms/SelectGroup/SelectCardAddSub";
 
 interface Category {
@@ -13,12 +12,7 @@ interface Category {
   is_active: string;
 }
 
-interface Currency {
-  id: number;
-  name: string;
-  symbol: string;
-  price: string;
-}
+
 
 export default function AddSubCat() {
 
@@ -194,7 +188,7 @@ export default function AddSubCat() {
                 type="submit"
                 className="inline-flex items-center justify-center rounded-md bg-primary py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
               >
-                Add Card
+               Add Sub Category
               </button>
             </div>
           </div>
